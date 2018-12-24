@@ -36,7 +36,7 @@ namespace FPTManagerSutdent
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<Datacontext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("FPTManagerSutdentContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("Datacontext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

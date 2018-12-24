@@ -10,27 +10,22 @@ using FPTManagerSutdent.Models;
 
 namespace FPTManagerSutdent.Controllers
 {
-    public class ClassRoomsController : Controller
+    public class TeachersController : Controller
     {
         private readonly Datacontext _context;
 
-        public ClassRoomsController(Datacontext context)
+        public TeachersController(Datacontext context)
         {
             _context = context;
         }
 
-        // GET: ClassRooms
+        // GET: Teachers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ClassRoom
-                .Include(c => c.ClassRoomCourses)
-                .ThenInclude(cr => cr.Course)
-                .Include(s => s.StudentClassRooms)
-                .ThenInclude(sc => sc.Student)
-                .ToListAsync());
+            return View(await _context.Teacher.ToListAsync());
         }
 
-        // GET: ClassRooms/Details/5
+        // GET: Teachers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,39 +33,39 @@ namespace FPTManagerSutdent.Controllers
                 return NotFound();
             }
 
-            var classRoom = await _context.ClassRoom
+            var teacher = await _context.Teacher
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (classRoom == null)
+            if (teacher == null)
             {
                 return NotFound();
             }
 
-            return View(classRoom);
+            return View(teacher);
         }
 
-        // GET: ClassRooms/Create
+        // GET: Teachers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ClassRooms/Create
+        // POST: Teachers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,CreatedAt,UpdatedAt,Status")] ClassRoom classRoom)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,CreatedAt,UpdatedAt,Status")] Teacher teacher)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(classRoom);
+                _context.Add(teacher);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(classRoom);
+            return View(teacher);
         }
 
-        // GET: ClassRooms/Edit/5
+        // GET: Teachers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,22 +73,22 @@ namespace FPTManagerSutdent.Controllers
                 return NotFound();
             }
 
-            var classRoom = await _context.ClassRoom.FindAsync(id);
-            if (classRoom == null)
+            var teacher = await _context.Teacher.FindAsync(id);
+            if (teacher == null)
             {
                 return NotFound();
             }
-            return View(classRoom);
+            return View(teacher);
         }
 
-        // POST: ClassRooms/Edit/5
+        // POST: Teachers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CreatedAt,UpdatedAt,Status")] ClassRoom classRoom)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,CreatedAt,UpdatedAt,Status")] Teacher teacher)
         {
-            if (id != classRoom.Id)
+            if (id != teacher.Id)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace FPTManagerSutdent.Controllers
             {
                 try
                 {
-                    _context.Update(classRoom);
+                    _context.Update(teacher);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClassRoomExists(classRoom.Id))
+                    if (!TeacherExists(teacher.Id))
                     {
                         return NotFound();
                     }
@@ -118,10 +113,10 @@ namespace FPTManagerSutdent.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(classRoom);
+            return View(teacher);
         }
 
-        // GET: ClassRooms/Delete/5
+        // GET: Teachers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,30 +124,30 @@ namespace FPTManagerSutdent.Controllers
                 return NotFound();
             }
 
-            var classRoom = await _context.ClassRoom
+            var teacher = await _context.Teacher
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (classRoom == null)
+            if (teacher == null)
             {
                 return NotFound();
             }
 
-            return View(classRoom);
+            return View(teacher);
         }
 
-        // POST: ClassRooms/Delete/5
+        // POST: Teachers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var classRoom = await _context.ClassRoom.FindAsync(id);
-            _context.ClassRoom.Remove(classRoom);
+            var teacher = await _context.Teacher.FindAsync(id);
+            _context.Teacher.Remove(teacher);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClassRoomExists(int id)
+        private bool TeacherExists(int id)
         {
-            return _context.ClassRoom.Any(e => e.Id == id);
+            return _context.Teacher.Any(e => e.Id == id);
         }
     }
 }

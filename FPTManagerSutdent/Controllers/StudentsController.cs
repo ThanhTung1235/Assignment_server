@@ -10,27 +10,22 @@ using FPTManagerSutdent.Models;
 
 namespace FPTManagerSutdent.Controllers
 {
-    public class ClassRoomsController : Controller
+    public class StudentsController : Controller
     {
         private readonly Datacontext _context;
 
-        public ClassRoomsController(Datacontext context)
+        public StudentsController(Datacontext context)
         {
             _context = context;
         }
 
-        // GET: ClassRooms
+        // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ClassRoom
-                .Include(c => c.ClassRoomCourses)
-                .ThenInclude(cr => cr.Course)
-                .Include(s => s.StudentClassRooms)
-                .ThenInclude(sc => sc.Student)
-                .ToListAsync());
+            return View(await _context.Student.ToListAsync());
         }
 
-        // GET: ClassRooms/Details/5
+        // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,39 +33,55 @@ namespace FPTManagerSutdent.Controllers
                 return NotFound();
             }
 
-            var classRoom = await _context.ClassRoom
+            var student = await _context.Student
+                .Include(s => s.StudentClassRooms)
+                .ThenInclude(scr => scr.ClassRoom)
+                .Include(s => s.StudentCourses)
+                .ThenInclude(sc => sc.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (classRoom == null)
+            if (student == null)
             {
                 return NotFound();
             }
 
-            return View(classRoom);
+            return View(student);
         }
 
-        // GET: ClassRooms/Create
+        // GET: Students/Create
         public IActionResult Create()
         {
+            var clrs = _context.ClassRoom.ToList();
+            ViewData["clrs"] = clrs;
             return View();
         }
 
-        // POST: ClassRooms/Create
+        // POST: Students/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,CreatedAt,UpdatedAt,Status")] ClassRoom classRoom)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Gender,Phone,Address,DoB,CreatedAt,UpdatedAt,Status")] Student student, int[] ClassRoomId)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(classRoom);
+                foreach (var id in ClassRoomId)
+                {
+                    var classroom = _context.ClassRoom.Find(id);
+                    StudentClassRoom sc = new StudentClassRoom
+                    {
+                        ClassRoom = classroom,
+                        Student = student
+                    };
+                    _context.Add(sc);
+                }
+                _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(classRoom);
+            return View(student);
         }
 
-        // GET: ClassRooms/Edit/5
+        // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,22 +89,22 @@ namespace FPTManagerSutdent.Controllers
                 return NotFound();
             }
 
-            var classRoom = await _context.ClassRoom.FindAsync(id);
-            if (classRoom == null)
+            var student = await _context.Student.FindAsync(id);
+            if (student == null)
             {
                 return NotFound();
             }
-            return View(classRoom);
+            return View(student);
         }
 
-        // POST: ClassRooms/Edit/5
+        // POST: Students/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CreatedAt,UpdatedAt,Status")] ClassRoom classRoom)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Gender,Phone,Address,DoB,CreatedAt,UpdatedAt,Status")] Student student)
         {
-            if (id != classRoom.Id)
+            if (id != student.Id)
             {
                 return NotFound();
             }
@@ -102,12 +113,12 @@ namespace FPTManagerSutdent.Controllers
             {
                 try
                 {
-                    _context.Update(classRoom);
+                    _context.Update(student);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClassRoomExists(classRoom.Id))
+                    if (!StudentExists(student.Id))
                     {
                         return NotFound();
                     }
@@ -118,10 +129,10 @@ namespace FPTManagerSutdent.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(classRoom);
+            return View(student);
         }
 
-        // GET: ClassRooms/Delete/5
+        // GET: Students/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,30 +140,30 @@ namespace FPTManagerSutdent.Controllers
                 return NotFound();
             }
 
-            var classRoom = await _context.ClassRoom
+            var student = await _context.Student
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (classRoom == null)
+            if (student == null)
             {
                 return NotFound();
             }
 
-            return View(classRoom);
+            return View(student);
         }
 
-        // POST: ClassRooms/Delete/5
+        // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var classRoom = await _context.ClassRoom.FindAsync(id);
-            _context.ClassRoom.Remove(classRoom);
+            var student = await _context.Student.FindAsync(id);
+            _context.Student.Remove(student);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClassRoomExists(int id)
+        private bool StudentExists(int id)
         {
-            return _context.ClassRoom.Any(e => e.Id == id);
+            return _context.Student.Any(e => e.Id == id);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FPTManagerSutdent.Models.ClassRoom>
+﻿@model IEnumerable<FPTManagerSutdent.Models.Teacher>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,13 +16,16 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                Môn lớp đang học
-            </th>
-            <th>
-                Sinh viên đang học
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th></th>
         </tr>
@@ -34,21 +37,17 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @foreach (var cr in item.ClassRoomCourses)
-                {
-                    @cr.Course.Name
-                }
-            </td>
-            <td>
-                @foreach (var sc in item.StudentClassRooms)
-                {
-                    @sc.Student.Name
-                }
+                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

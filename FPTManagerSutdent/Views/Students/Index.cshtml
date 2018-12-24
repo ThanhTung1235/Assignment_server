@@ -1,10 +1,9 @@
-﻿@model IEnumerable<FPTManagerSutdent.Models.ClassRoom>
+﻿@model IEnumerable<FPTManagerSutdent.Models.Student>
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,13 +15,19 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                Môn lớp đang học
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                Sinh viên đang học
+                @Html.DisplayNameFor(model => model.Gender)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DoB)
             </th>
             <th></th>
         </tr>
@@ -34,21 +39,20 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @foreach (var cr in item.ClassRoomCourses)
-                {
-                    @cr.Course.Name
-                }
+                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @foreach (var sc in item.StudentClassRooms)
-                {
-                    @sc.Student.Name
-                }
+                @Html.DisplayFor(modelItem => item.Gender)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
+                @Html.DisplayFor(modelItem => item.Phone)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoB)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
