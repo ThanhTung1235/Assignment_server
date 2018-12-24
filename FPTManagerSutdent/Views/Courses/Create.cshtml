@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    var course = ViewData["course"] as List<ClassRoom>;
 }
 
 <h2>Create</h2>
@@ -17,21 +18,22 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <div class="checkbox">
+                <label asp-for="ClassRoomCourses" class="control-label"></label>
+                <ul>
+                    @foreach (var c in course)
+                    {
+                        <li><input type="checkbox" value="@c.Id" name="courseId[]"/> @c.Name</li>
+                    }
+                   
+                </ul>
+
+            </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ExpiredAt" class="control-label"></label>
-                <input asp-for="ExpiredAt" class="form-control" />
-                <span asp-validation-for="ExpiredAt" class="text-danger"></span>
-            </div>          
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

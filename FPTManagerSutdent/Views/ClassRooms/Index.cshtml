@@ -19,13 +19,10 @@
                 Môn lớp đang học
             </th>
             <th>
+                Sinh viên đang học
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th></th>
         </tr>
@@ -37,20 +34,21 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @*@foreach (var cr in Model.)
+                @foreach (var cr in item.ClassRoomCourses)
                 {
-                    
-                }*@
+                    @cr.Course.Name
+                }
+            </td>
+            <td>
+                @foreach (var cr in item.StudentClassRooms)
+                {
+                    @cr.Student.Name
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

@@ -24,7 +24,10 @@ namespace FPTManagerSutdent.Controllers
         {
             return View(await _context.ClassRoom
                 .Include(c => c.ClassRoomCourses)
-                .ThenInclude(cr => cr.Course).ToListAsync());
+                .ThenInclude(cr => cr.Course)
+                .Include(c => c.StudentClassRooms)
+                .ThenInclude(cr => cr.Student)
+                .ToListAsync());
         }
 
         // GET: ClassRooms/Details/5
