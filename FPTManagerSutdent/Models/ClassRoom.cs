@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +15,13 @@ namespace FPTManagerSutdent.Models
             this.Status = ClassRoomStatus.Active;
         }
         public int Id { get; set; }
+        [Required]
+        [MaxLength(8)]
         public string Name { get; set; }
+        [Required]
+        [StringLength(1000)]
         public string Description { get; set; }
+        [Required]
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public ClassRoomStatus Status { get; set; }
