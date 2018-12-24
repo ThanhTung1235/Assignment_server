@@ -61,6 +61,7 @@ namespace FPTManagerSutdent.Controllers
         {
             if (ModelState.IsValid)
             {
+                mark.CalculateScore();
                 _context.Add(mark);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
