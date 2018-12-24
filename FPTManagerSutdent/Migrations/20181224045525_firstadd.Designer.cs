@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20181222063433_init")]
-    partial class init
+    [Migration("20181224045525_firstadd")]
+    partial class firstadd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,8 +92,6 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<int>("StudentId");
 
-                    b.Property<long?>("StudentRollnumber");
-
                     b.Property<int>("Theory");
 
                     b.Property<DateTime>("UpdateAt");
@@ -102,14 +100,14 @@ namespace FPTManagerSutdent.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("StudentRollnumber");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Mark");
                 });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.Student", b =>
                 {
-                    b.Property<long>("Rollnumber")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -119,11 +117,14 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<DateTime>("DoB");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
                     b.Property<int>("Gender");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
                     b.Property<string>("Phone");
 
@@ -131,7 +132,7 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<DateTime>("UpdatedAt");
 
-                    b.HasKey("Rollnumber");
+                    b.HasKey("Id");
 
                     b.ToTable("Student");
                 });
@@ -144,13 +145,11 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<int?>("ClassRoomId");
 
-                    b.Property<long?>("StudentRollnumber");
-
                     b.HasKey("ClassId", "StudentId");
 
                     b.HasIndex("ClassRoomId");
 
-                    b.HasIndex("StudentRollnumber");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentClassRoom");
                 });
@@ -161,11 +160,9 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<int>("StudentId");
 
-                    b.Property<long?>("StudentRollnumber");
-
                     b.HasKey("CourseId", "StudentId");
 
-                    b.HasIndex("StudentRollnumber");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentCourse");
                 });
@@ -213,7 +210,8 @@ namespace FPTManagerSutdent.Migrations
 
                     b.HasOne("FPTManagerSutdent.Models.Student", "Student")
                         .WithMany("Marks")
-                        .HasForeignKey("StudentRollnumber");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.StudentClassRoom", b =>
@@ -224,7 +222,8 @@ namespace FPTManagerSutdent.Migrations
 
                     b.HasOne("FPTManagerSutdent.Models.Student", "Student")
                         .WithMany("StudentClassRooms")
-                        .HasForeignKey("StudentRollnumber");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.StudentCourse", b =>
@@ -236,7 +235,8 @@ namespace FPTManagerSutdent.Migrations
 
                     b.HasOne("FPTManagerSutdent.Models.Student", "Student")
                         .WithMany("StudentCourses")
-                        .HasForeignKey("StudentRollnumber");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
