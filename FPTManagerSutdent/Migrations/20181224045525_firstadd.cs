@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FPTManagerSutdent.Migrations
 {
-    public partial class init : Migration
+    public partial class firstadd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,10 +46,10 @@ namespace FPTManagerSutdent.Migrations
                 name: "Student",
                 columns: table => new
                 {
-                    Rollnumber = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 30, nullable: false),
+                    Email = table.Column<string>(nullable: false),
                     Gender = table.Column<int>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
@@ -60,7 +60,7 @@ namespace FPTManagerSutdent.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Student", x => x.Rollnumber);
+                    table.PrimaryKey("PK_Student", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,8 +116,7 @@ namespace FPTManagerSutdent.Migrations
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdateAt = table.Column<DateTime>(nullable: false),
                     CourseId = table.Column<int>(nullable: false),
-                    StudentId = table.Column<int>(nullable: false),
-                    StudentRollnumber = table.Column<long>(nullable: true)
+                    StudentId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,11 +128,11 @@ namespace FPTManagerSutdent.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Mark_Student_StudentRollnumber",
-                        column: x => x.StudentRollnumber,
+                        name: "FK_Mark_Student_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Student",
-                        principalColumn: "Rollnumber",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,7 +141,6 @@ namespace FPTManagerSutdent.Migrations
                 {
                     StudentId = table.Column<int>(nullable: false),
                     ClassId = table.Column<int>(nullable: false),
-                    StudentRollnumber = table.Column<long>(nullable: true),
                     ClassRoomId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -155,11 +153,11 @@ namespace FPTManagerSutdent.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_StudentClassRoom_Student_StudentRollnumber",
-                        column: x => x.StudentRollnumber,
+                        name: "FK_StudentClassRoom_Student_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Student",
-                        principalColumn: "Rollnumber",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,8 +165,7 @@ namespace FPTManagerSutdent.Migrations
                 columns: table => new
                 {
                     CourseId = table.Column<int>(nullable: false),
-                    StudentId = table.Column<int>(nullable: false),
-                    StudentRollnumber = table.Column<long>(nullable: true)
+                    StudentId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -180,11 +177,11 @@ namespace FPTManagerSutdent.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentCourse_Student_StudentRollnumber",
-                        column: x => x.StudentRollnumber,
+                        name: "FK_StudentCourse_Student_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Student",
-                        principalColumn: "Rollnumber",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -198,9 +195,9 @@ namespace FPTManagerSutdent.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mark_StudentRollnumber",
+                name: "IX_Mark_StudentId",
                 table: "Mark",
-                column: "StudentRollnumber");
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentClassRoom_ClassRoomId",
@@ -208,14 +205,14 @@ namespace FPTManagerSutdent.Migrations
                 column: "ClassRoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentClassRoom_StudentRollnumber",
+                name: "IX_StudentClassRoom_StudentId",
                 table: "StudentClassRoom",
-                column: "StudentRollnumber");
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentCourse_StudentRollnumber",
+                name: "IX_StudentCourse_StudentId",
                 table: "StudentCourse",
-                column: "StudentRollnumber");
+                column: "StudentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
