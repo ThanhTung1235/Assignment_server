@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FPTManagerSutdent.Data;
 using FPTManagerSutdent.Models;
+using PagedList;
 
 namespace FPTManagerSutdent.Controllers
 {
@@ -19,10 +20,56 @@ namespace FPTManagerSutdent.Controllers
             _context = context;
         }
 
+        public string NameSort { get; set; }
+        public string DateSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
+        public List<Student> Student { get; set; }
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task Index(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
         {
-            return View(await _context.Student.ToListAsync());
+            CurrentSort = sortOrder;
+            NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            CurrentFilter = searchString;
+            
+
+            ViewBag.CurrentFilter = searchString;
+
+            var students = from s in _context.Student
+                select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.Name.Contains(searchString)
+                                               || s.Email.Contains(searchString)
+                                               || s.Phone.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    students = students.OrderByDescending(s => s.Name);
+                    break;
+                case "Date":
+                    students = students.OrderBy(s => s.CreatedAt);
+                    break;
+                case "date_desc":
+                    students = students.OrderByDescending(s => s.CreatedAt);
+                    break;
+                default:  // Name ascending 
+                    students = students.OrderBy(s => s.Name);
+                    break;
+            }
+
+            Student = await students.AsNoTracking().ToListAsync();
         }
 
         // GET: Students/Details/5
