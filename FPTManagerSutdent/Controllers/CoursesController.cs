@@ -22,7 +22,11 @@ namespace FPTManagerSutdent.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Course.ToListAsync());
+            return View(await _context.Course
+                .Include(c => c.ClassRoomCourses)
+                .ThenInclude(cr => cr.ClassRoom)
+                .ThenInclude(s => s.StudentClassRooms)
+                .ToListAsync());
         }
 
         // GET: Courses/Details/5
@@ -46,6 +50,8 @@ namespace FPTManagerSutdent.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
+            var courses = _context.ClassRoom.ToList();
+            ViewData["course"] = courses;
             return View();
         }
 
@@ -54,10 +60,20 @@ namespace FPTManagerSutdent.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,CreatedAt,ExpiredAt,Status")] Course course)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,CreatedAt,ExpiredAt,Status")] Course course, int[] courseId)
         {
             if (ModelState.IsValid)
             {
+                foreach (var id in courseId)
+                {
+                    var courseClass = _context.ClassRoom.Find(id);
+                    ClassRoomCourse CourseCategory = new ClassRoomCourse()
+                    {
+                        ClassRoom = courseClass,
+                        Course = course
+                    };
+                    _context.Add(CourseCategory);
+                }
                 _context.Add(course);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
