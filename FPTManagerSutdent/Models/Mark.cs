@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace FPTManagerSutdent.Models
         public int Practice { get; set; }
         [Required]
         public int Assignment { get; set; }
-
+        [Required]
         public float Calculate { get; set; }
         [Required]
         [DataType(DataType.DateTime)]
@@ -33,8 +34,10 @@ namespace FPTManagerSutdent.Models
         [DataType(DataType.DateTime)]
         public DateTime UpdateAt { get; set; }
         public int CourseId { get; set; }
+        [ForeignKey("CourseId")]
         public Course Course { get; set; }
         public int StudentId { get; set; }
+        [ForeignKey("StudentId")]
         public Student Student { get; set; }
 
         public void CalculateScore()
