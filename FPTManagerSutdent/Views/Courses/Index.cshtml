@@ -26,10 +26,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @foreach (var cr in item.ClassRoomCourses)
-                {
-                    @cr.Course.Name
-                }
+                @Html.DisplayFor(modelItem => item.Name)
             </td>           
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
