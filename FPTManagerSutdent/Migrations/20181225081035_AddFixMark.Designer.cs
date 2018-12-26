@@ -4,18 +4,20 @@ using FPTManagerSutdent.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    partial class DatacontextModelSnapshot : ModelSnapshot
+    [Migration("20181225081035_AddFixMark")]
+    partial class AddFixMark
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -27,12 +29,9 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000);
+                    b.Property<string>("Description");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.Property<int>("Status");
 
@@ -73,6 +72,7 @@ namespace FPTManagerSutdent.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
+
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
@@ -111,26 +111,6 @@ namespace FPTManagerSutdent.Migrations
                     b.ToTable("Mark");
                 });
 
-            modelBuilder.Entity("FPTManagerSutdent.Models.MyCredential", b =>
-                {
-                    b.Property<string>("AccessToken")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime>("ExpireAt");
-
-                    b.Property<int>("OwnerId");
-
-                    b.Property<int>("Status");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.HasKey("AccessToken");
-
-                    b.ToTable("MyCredentials");
-                });
-
             modelBuilder.Entity("FPTManagerSutdent.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -152,11 +132,7 @@ namespace FPTManagerSutdent.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<string>("Password");
-
                     b.Property<string>("Phone");
-
-                    b.Property<string>("Salt");
 
                     b.Property<int>("Status");
 
@@ -169,11 +145,15 @@ namespace FPTManagerSutdent.Migrations
 
             modelBuilder.Entity("FPTManagerSutdent.Models.StudentClassRoom", b =>
                 {
-                    b.Property<int>("ClassRoomId");
+                    b.Property<int>("ClassId");
 
                     b.Property<int>("StudentId");
 
-                    b.HasKey("ClassRoomId", "StudentId");
+                    b.Property<int?>("ClassRoomId");
+
+                    b.HasKey("ClassId", "StudentId");
+
+                    b.HasIndex("ClassRoomId");
 
                     b.HasIndex("StudentId");
 
@@ -222,7 +202,7 @@ namespace FPTManagerSutdent.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FPTManagerSutdent.Models.Course", "Course")
-                        .WithMany("ClassRoomCourses")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -244,8 +224,7 @@ namespace FPTManagerSutdent.Migrations
                 {
                     b.HasOne("FPTManagerSutdent.Models.ClassRoom", "ClassRoom")
                         .WithMany("StudentClassRooms")
-                        .HasForeignKey("ClassRoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ClassRoomId");
 
                     b.HasOne("FPTManagerSutdent.Models.Student", "Student")
                         .WithMany("StudentClassRooms")
