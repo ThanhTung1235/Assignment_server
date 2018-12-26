@@ -4,10 +4,13 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h2>Danh sách sinh viên</h2>
+<div class="create" style="text-align: right">
+    <p>
+        <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
+    </p>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <form asp-controller="Students" asp-action="Index">
     <p>
         <input type="text" name="SearchString">
@@ -18,22 +21,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Tên sinh viên
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Gender)
+                Giới tính
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                Số điện thoại
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                Địa chỉ
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DoB)
+                Ngày sinh
             </th>
             <th></th>
         </tr>

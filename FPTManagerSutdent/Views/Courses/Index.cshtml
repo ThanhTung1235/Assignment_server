@@ -4,19 +4,21 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Danh sách các môn học</h2>
 
-<p>
-    <a asp-action="Create">Thêm</a>
-</p>
+<div class="create" style="text-align: right">
+    <p>
+        <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
+    </p>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Tên môn học
             </th>          
             <th>
-                Quản lí thông tin môn học
+                Thông tin môn học
             </th>
         </tr>
     </thead>
@@ -24,15 +26,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @foreach (var cr in item.ClassRoomCourses)
+                {
+                    @cr.Course.Name
+                }
             </td>           
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-                @foreach (var cr in item.ClassRoomCourses)
-                {
-                     @cr.ClassRoom.Name
-                }
+                
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
