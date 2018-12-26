@@ -22,7 +22,7 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks
         public async Task<IActionResult> Index()
         {
-            var datacontext = _context.Mark.Include(m => m.Course);
+            var datacontext = _context.Mark.Include(m => m.Course).Include(n => n.Student);
             return View(await datacontext.ToListAsync());
         }
 
