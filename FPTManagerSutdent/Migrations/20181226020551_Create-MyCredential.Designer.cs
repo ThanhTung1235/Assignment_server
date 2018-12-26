@@ -4,14 +4,16 @@ using FPTManagerSutdent.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    partial class DatacontextModelSnapshot : ModelSnapshot
+    [Migration("20181226020551_Create-MyCredential")]
+    partial class CreateMyCredential
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,7 +142,9 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<DateTime>("ExpireAt");
 
-                    b.Property<int>("OwnerId");
+                    b.Property<long>("OwnerId");
+
+                    b.Property<string>("ScopeIds");
 
                     b.Property<int>("Status");
 

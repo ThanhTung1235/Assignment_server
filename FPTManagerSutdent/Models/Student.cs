@@ -43,6 +43,8 @@ namespace FPTManagerSutdent.Models
         public List<StudentCourse> StudentCourses { get; set; }
         [Display(Name = "Class Room")]
         public List<StudentClassRoom> StudentClassRooms { get; set; }
+        public int AccountId { get; set; }
+        public Account  Account { get; set; }
     }
 
     public enum StudentStatus

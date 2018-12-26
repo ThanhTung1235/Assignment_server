@@ -17,6 +17,7 @@ namespace FPTManagerSutdent.Data
         public DbSet<Course> Course { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
         public DbSet<ClassRoom> ClassRoom { get; set; }
+        public DbSet<MyCredential> MyCredentials { get; set; }
         public DbSet<Mark> Mark { get; set; }
         public DbSet<ClassRoomCourse> ClassRoomCourse { get; set; }
         public DbSet<StudentClassRoom> StudentClassRoom { get; set; }
@@ -30,6 +31,7 @@ namespace FPTManagerSutdent.Data
             modelBuilder.Entity<StudentClassRoom>()
                 .HasKey(sc => new { sc.ClassRoomId, sc.StudentId });
         }
+        public DbSet<FPTManagerSutdent.Models.Account> Account { get; set; }
     }
     
 }

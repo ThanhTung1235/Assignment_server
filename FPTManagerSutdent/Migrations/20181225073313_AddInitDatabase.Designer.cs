@@ -4,14 +4,16 @@ using FPTManagerSutdent.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    partial class DatacontextModelSnapshot : ModelSnapshot
+    [Migration("20181225073313_AddInitDatabase")]
+    partial class AddInitDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,26 +131,6 @@ namespace FPTManagerSutdent.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("Mark");
-                });
-
-            modelBuilder.Entity("FPTManagerSutdent.Models.MyCredential", b =>
-                {
-                    b.Property<string>("AccessToken")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime>("ExpireAt");
-
-                    b.Property<int>("OwnerId");
-
-                    b.Property<int>("Status");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.HasKey("AccessToken");
-
-                    b.ToTable("MyCredentials");
                 });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.Student", b =>
