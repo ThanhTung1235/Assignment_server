@@ -20,9 +20,19 @@ namespace FPTManagerSutdent.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Student.ToListAsync());
+            var students = from s in _context.Student
+                select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.Name.Contains(searchString)
+                                               || s.Email.Contains(searchString)
+                                               || s.Phone.Contains(searchString));
+            }
+
+            return View(await students.ToListAsync());
         }
 
         // GET: Students/Details/5
@@ -35,9 +45,9 @@ namespace FPTManagerSutdent.Controllers
 
             var student = await _context.Student
                 .Include(s => s.StudentClassRooms)
-                .ThenInclude(s => s.ClassRoom)
+                .ThenInclude(scr => scr.ClassRoom)
                 .Include(s => s.StudentCourses)
-                .ThenInclude(s => s.Course)
+                .ThenInclude(sc => sc.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {

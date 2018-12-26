@@ -20,6 +20,7 @@ namespace FPTManagerSutdent.Models
         public string Name { get; set; }
         [Required(ErrorMessage = "Maximum length is 300")]
         [StringLength(300)]
+        [Required]
         public string Description { get; set; }
         [Required]
         [DataType(DataType.Date)]
@@ -30,6 +31,7 @@ namespace FPTManagerSutdent.Models
         public CourseStatus Status { get; set; } 
         public List<Mark> Marks { get; set; }
         public List<StudentCourse> StudentCourses { get; set; }
+        public List<ClassRoomCourse> ClassRoomCourses { get; set; }
     }
 
     public enum CourseStatus
