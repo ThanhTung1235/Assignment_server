@@ -17,6 +17,15 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
+            Sinh viên
+        </dt>
+        <dd>
+            @foreach (var cr in Model.StudentClassRooms)
+            {
+                @cr.Student.Name
+            }
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>

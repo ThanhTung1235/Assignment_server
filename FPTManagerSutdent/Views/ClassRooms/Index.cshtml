@@ -24,34 +24,28 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a href="ClassRooms/ListSinhVien/@item.Id"> @Html.DisplayFor(modelItem => item.Name)</a>
-               
-            </td>
-            <td>
-                @foreach (var cr in item.ClassRoomCourses)
-                {
-                    @cr.Course.Name
-                }
-            </td>
-            @*<td>
-                @foreach (var sc in item.StudentClassRooms)
-                {
-                    @sc.Student.Name
-                }
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="Students/Index"> @Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td>
+                    @foreach (var cr in item.ClassRoomCourses)
+                    {
+                        @cr.Course.Name
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -25,8 +25,6 @@ namespace FPTManagerSutdent.Controllers
             return View(await _context.ClassRoom
                 .Include(c => c.ClassRoomCourses)
                 .ThenInclude(cr => cr.Course)
-                .Include(s => s.StudentClassRooms)
-                .ThenInclude(sc => sc.Student)
                 .ToListAsync());
         }
 
@@ -40,6 +38,8 @@ namespace FPTManagerSutdent.Controllers
             }
 
             var classRoom = await _context.ClassRoom
+                .Include(c => c.StudentClassRooms)
+                .ThenInclude(cr => cr.Student)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (classRoom == null)
             {
