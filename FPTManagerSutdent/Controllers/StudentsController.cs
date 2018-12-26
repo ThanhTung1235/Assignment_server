@@ -19,11 +19,10 @@ namespace FPTManagerSutdent.Controllers
             _context = context;
         }
 
-        // GET: Students
         public async Task<IActionResult> Index(string searchString)
         {
             var students = from s in _context.Student
-                select s;
+                           select s;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -70,7 +69,7 @@ namespace FPTManagerSutdent.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Gender,Phone,Address,DoB,CreatedAt,UpdatedAt,Status")] Student student, int[] ClassRoomId)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Salt,Gender,Phone,Address,DoB,CreatedAt,UpdatedAt,Status")] Student student, int[] ClassRoomId)
         {
             if (ModelState.IsValid)
             {
@@ -84,6 +83,8 @@ namespace FPTManagerSutdent.Controllers
                     };
                     _context.Add(sc);
                 }
+                student.GenerateSalt();
+                student.EncryptPassword();
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -112,7 +113,7 @@ namespace FPTManagerSutdent.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Gender,Phone,Address,DoB,CreatedAt,UpdatedAt,Status")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,Salt,Gender,Phone,Address,DoB,CreatedAt,UpdatedAt,Status")] Student student)
         {
             if (id != student.Id)
             {

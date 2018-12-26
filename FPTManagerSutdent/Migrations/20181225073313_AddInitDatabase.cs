@@ -4,18 +4,36 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FPTManagerSutdent.Migrations
 {
-    public partial class firstadd : Migration
+    public partial class AddInitDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Account",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Email = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    Salt = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Account", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "ClassRoom",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(maxLength: 1000, nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false)
@@ -31,8 +49,8 @@ namespace FPTManagerSutdent.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ExpiredAt = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false)
@@ -56,11 +74,18 @@ namespace FPTManagerSutdent.Migrations
                     DoB = table.Column<DateTime>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    AccountId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Student", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Student_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,11 +98,18 @@ namespace FPTManagerSutdent.Migrations
                     Email = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    AccountId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teacher", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Teacher_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -140,18 +172,17 @@ namespace FPTManagerSutdent.Migrations
                 columns: table => new
                 {
                     StudentId = table.Column<int>(nullable: false),
-                    ClassId = table.Column<int>(nullable: false),
-                    ClassRoomId = table.Column<int>(nullable: true)
+                    ClassRoomId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentClassRoom", x => new { x.ClassId, x.StudentId });
+                    table.PrimaryKey("PK_StudentClassRoom", x => new { x.ClassRoomId, x.StudentId });
                     table.ForeignKey(
                         name: "FK_StudentClassRoom_ClassRoom_ClassRoomId",
                         column: x => x.ClassRoomId,
                         principalTable: "ClassRoom",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StudentClassRoom_Student_StudentId",
                         column: x => x.StudentId,
@@ -200,9 +231,10 @@ namespace FPTManagerSutdent.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentClassRoom_ClassRoomId",
-                table: "StudentClassRoom",
-                column: "ClassRoomId");
+                name: "IX_Student_AccountId",
+                table: "Student",
+                column: "AccountId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentClassRoom_StudentId",
@@ -213,6 +245,12 @@ namespace FPTManagerSutdent.Migrations
                 name: "IX_StudentCourse_StudentId",
                 table: "StudentCourse",
                 column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teacher_AccountId",
+                table: "Teacher",
+                column: "AccountId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -240,6 +278,9 @@ namespace FPTManagerSutdent.Migrations
 
             migrationBuilder.DropTable(
                 name: "Student");
+
+            migrationBuilder.DropTable(
+                name: "Account");
         }
     }
 }
