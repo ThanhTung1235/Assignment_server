@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Create";
+    var listStudent = ViewData["StudentId"] as List<Student>;
+    var listCourse = ViewData["CourseId"] as List<Course>;
+
 }
 
 <h2>Thêm điểm</h2>
@@ -27,24 +30,27 @@
                 <input asp-for="Assignment" class="form-control" />
                 <span asp-validation-for="Assignment" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            <div class="form-control">
+                <label asp-for="CourseId" class="control-label">
+
+                </label>
+                <select asp-for="CourseId" class="form-control">
+                    @foreach (var course in listCourse)
+                    {
+                        <option value="@course.Id">@course.Name</option>
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="UpdateAt" class="control-label"></label>
-                <input asp-for="UpdateAt" class="form-control" />
-                <span asp-validation-for="UpdateAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CourseId" class="control-label"></label>
-                <select asp-for="CourseId" class ="form-control" asp-items="ViewBag.CourseId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
-                <input asp-for="StudentId" class="form-control" />
-                <span asp-validation-for="StudentId" class="text-danger"></span>
+            <div class="form-control">
+                <label asp-for="StudentId" class="control-label">
+                    <select asp-for="StudentId" class="form-control">
+                        @foreach (var student in listStudent)
+                        {
+                            <option value="@student.Id">@student.Name</option>
+                        }
+                    </select>
+                </label>
+                
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

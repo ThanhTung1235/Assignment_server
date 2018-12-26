@@ -3,40 +3,22 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h2>Danh sách sinh viên</h2>
-<div class="create" style="text-align: right">
-    <p>
-        <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
-    </p>
-</div>
 
-<<<<<<< HEAD
-<form asp-controller="Students" asp-action="Index">
-    <p>
-        <input type="text" name="SearchString">
-        <input type="submit" value="Search" />
-    </p>
-</form>
-=======
 <h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
->>>>>>> 2119772374270782c989ee94223e181fad2baf71
 <table class="table">
     <thead>
         <tr>
             <th>
-                Tên sinh viên
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                Email
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-<<<<<<< HEAD
-                Giới tính
-=======
                 @Html.DisplayNameFor(model => model.Password)
             </th>
             <th>
@@ -44,16 +26,15 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gender)
->>>>>>> 2119772374270782c989ee94223e181fad2baf71
             </th>
             <th>
-                Số điện thoại
+                @Html.DisplayNameFor(model => model.Phone)
             </th>
             <th>
-                Địa chỉ
+                @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                Ngày sinh
+                @Html.DisplayNameFor(model => model.DoB)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)

@@ -4,64 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Thông tin sinh viên</h2>
-<hr/>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Tên
-            </th>
-            <th>
-                Email
-            </th>
-            <th>
-                Lớp
-            </th>
-            <th>
-                Môn học
-            </th>
-            <th>
-                Số Điện Thoại
-            </th>
-            <th>
-                Ngày Sinh
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                @Html.DisplayFor(model => model.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Email)
-            </td>
-            <td>
-                @foreach (var scr in Model.StudentClassRooms)
-                {
-                    <p>@scr.ClassRoom.Name</p>
-                }
-            </td>
-            <td>
-                @foreach (var sc in Model.StudentCourses)
-                {
-                    <p>@sc.Course.Name</p>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.DoB)
-            </td>
-        </tr>
-    </tbody>
-</table>
+<h2>Details</h2>
 
 <div>
-<<<<<<< HEAD
-=======
     <h4>Student</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -134,7 +79,6 @@
     </dl>
 </div>
 <div>
->>>>>>> 2119772374270782c989ee94223e181fad2baf71
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

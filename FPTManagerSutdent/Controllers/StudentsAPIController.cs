@@ -33,6 +33,7 @@ namespace FPTManagerSutdent.Controllers
         //public async Task<IActionResult> Information()
         //{
 
+<<<<<<< HEAD
         //    if (!ModelState.IsValid)
         //    {
         //        return BadRequest(ModelState);
@@ -96,6 +97,9 @@ namespace FPTManagerSutdent.Controllers
 
 
         // Lấy thôn tinsnh viên theo Id
+=======
+
+>>>>>>> 2119772374270782c989ee94223e181fad2baf71
         // GET: api/StudentsAPI/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStudent([FromRoute] int id)
@@ -114,7 +118,34 @@ namespace FPTManagerSutdent.Controllers
 
             return Ok(student);
         }
-        
+
+        [HttpPost("authentication")]
+        public IActionResult Authentication([FromBody] Account account)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existStudent = _context.Student.SingleOrDefault(a => a.Email == account.Email);
+            if (existStudent == null)
+            {
+                Response.StatusCode = 403;
+                return new JsonResult("Forbidden1");
+            }
+
+            var isValidPassword = existStudent.CheckLoginPassword(account.Password);
+            if (isValidPassword)
+            {
+                MyCredential credential = new MyCredential(existStudent.Id);
+                _context.MyCredentials.Add(credential);
+                _context.SaveChanges();
+                Response.StatusCode = 200;
+                return new JsonResult(credential);
+            }
+            Response.StatusCode = 403;
+            return new JsonResult("Forbidden2");
+        }
 
 
         // PUT: api/StudentsAPI/5

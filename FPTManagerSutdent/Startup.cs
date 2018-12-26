@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FPTManagerSutdent.Data;
+using FPTManagerSutdent.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +34,12 @@ namespace FPTManagerSutdent
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(180);
+                options.Cookie.HttpOnly = true;
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<Datacontext>(options =>
@@ -55,13 +62,19 @@ namespace FPTManagerSutdent
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
+            app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/*"), HandleMapCheckToken);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=ClassRooms}/{action=Index}/{id?}");
             });
+        }
+
+        private static void HandleMapCheckToken(IApplicationBuilder app)
+        {
+            app.UseCheckToken();
         }
     }
 }

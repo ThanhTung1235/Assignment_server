@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Xóa sinh viên</h2>
@@ -23,6 +22,18 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Salt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Salt)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Gender)
