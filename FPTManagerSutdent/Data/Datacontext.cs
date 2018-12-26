@@ -31,7 +31,6 @@ namespace FPTManagerSutdent.Data
             modelBuilder.Entity<StudentClassRoom>()
                 .HasKey(sc => new { sc.ClassRoomId, sc.StudentId });
         }
-        public DbSet<FPTManagerSutdent.Models.Account> Account { get; set; }
     }
     
 }

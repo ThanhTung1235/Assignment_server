@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Details</h2>
@@ -18,24 +17,65 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            Class
+            @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd>
-            @foreach (var scr in Model.StudentClassRooms)
-            {
-                <p>@scr.ClassRoom.Name</p>
-            }
+            @Html.DisplayFor(model => model.Email)
         </dd>
         <dt>
-            Course
+            @Html.DisplayNameFor(model => model.Password)
         </dt>
         <dd>
-            @foreach (var sc in Model.StudentCourses)
-            {
-                <p>@sc.Course.Name</p>
-            }
+            @Html.DisplayFor(model => model.Password)
         </dd>
-        
+        <dt>
+            @Html.DisplayNameFor(model => model.Salt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Salt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DoB)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DoB)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedAt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
     </dl>
 </div>
 <div>

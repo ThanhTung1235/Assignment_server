@@ -19,8 +19,6 @@ namespace FPTManagerSutdent.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public TeacherStatus Status { get; set; }
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
     }
 
     public enum TeacherStatus

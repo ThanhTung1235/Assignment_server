@@ -24,17 +24,17 @@ namespace FPTManagerSutdent.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(Account account)
+        public IActionResult Login(Student student)
         {
-            var existAccount = _context.Account.SingleOrDefault(a => a.Email == account.Email);
+            var existAccount = _context.Student.SingleOrDefault(a => a.Email == student.Email);
             if (existAccount == null)
             {
                 Response.StatusCode = 403;
                 return Json("Forbidden");
             }
-            account.Salt = existAccount.Salt;
-            account.EncryptPassword();
-            if (account.Password == existAccount.Password)
+            student.Salt = existAccount.Salt;
+            student.EncryptPassword();
+            if (student.Password == existAccount.Password)
             {
                 HttpContext.Session.SetString("currentLogin", existAccount.Email);
                 HttpContext.Session.SetString("currentLoginId", existAccount.Id.ToString());

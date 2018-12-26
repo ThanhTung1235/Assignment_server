@@ -8,7 +8,7 @@ namespace FPTManagerSutdent.Models
 {
     public class MyCredential
     {
-        public MyCredential(int ownerId)
+        public MyCredential(int OwnerId)
         {
             this.AccessToken = Guid.NewGuid().ToString();
             this.OwnerId = OwnerId;
