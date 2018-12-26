@@ -21,9 +21,9 @@
                 Điểm thực hành
             </th>
             <th>
-<<<<<<< HEAD
                 Điểm Assignment
-=======
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Assignment)
             </th>
             <th>
@@ -34,13 +34,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UpdateAt)
->>>>>>> 2119772374270782c989ee94223e181fad2baf71
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Course)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+                @Html.DisplayNameFor(model => model.Student)
             </th>
             <th></th>
         </tr>
@@ -58,8 +57,6 @@
                 @Html.DisplayFor(modelItem => item.Assignment)
             </td>
             <td>
-<<<<<<< HEAD
-=======
                 @Html.DisplayFor(modelItem => item.Calculate)
             </td>
             <td>
@@ -69,11 +66,13 @@
                 @Html.DisplayFor(modelItem => item.UpdateAt)
             </td>
             <td>
->>>>>>> 2119772374270782c989ee94223e181fad2baf71
+                @Html.DisplayFor(modelItem => item.Course.Name)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Course.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
+                @Html.DisplayFor(modelItem => item.Student.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
