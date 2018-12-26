@@ -30,6 +30,7 @@ namespace FPTManagerSutdent.Controllers
                 .ToListAsync());
         }
 
+
         // GET: ClassRooms/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -13,25 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Tên lớp
             </th>
             <th>
-                Môn lớp đang học
+                Môn Học
             </th>
             <th>
-                Sinh viên đang học
+                Ngày lớp hoạt động
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                <a href="ClassRooms/ListSinhVien/@item.Id"> @Html.DisplayFor(modelItem => item.Name)</a>
+               
             </td>
             <td>
                 @foreach (var cr in item.ClassRoomCourses)
@@ -39,12 +36,12 @@
                     @cr.Course.Name
                 }
             </td>
-            <td>
+            @*<td>
                 @foreach (var sc in item.StudentClassRooms)
                 {
                     @sc.Student.Name
                 }
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>

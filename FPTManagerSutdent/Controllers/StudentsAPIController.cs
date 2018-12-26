@@ -83,7 +83,6 @@ namespace FPTManagerSutdent.Controllers
 
             return NoContent();
         }
-
         // POST: api/StudentsAPI
         [HttpPost]
         public async Task<IActionResult> PostStudent([FromBody] Student student)
