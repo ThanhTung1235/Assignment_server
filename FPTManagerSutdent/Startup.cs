@@ -68,7 +68,7 @@ namespace FPTManagerSutdent
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=ClassRooms}/{action=Index}/{id?}");
             });
         }
 
