@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -103,9 +103,9 @@ namespace FPTManagerSutdent.Controllers
 
         // Lấy danh sách học sinh trong lớp
         [HttpGet("ListStudentInClass")]
-        public IEnumerable<StudentClassRoom> ListStudent(int classroom)
+        public IEnumerable<ClassRoom> ListStudent(int classroom)
         {
-            return _context.StudentClassRoom.Where(c => c.ClassRoomId == classroom).Include(s => s.Student).ToList();
+            return _context.ClassRoom.Where(c => c.Id == classroom).Include(s => s.StudentClassRooms).ToList();
         }
 
 

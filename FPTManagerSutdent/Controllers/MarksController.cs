@@ -22,7 +22,7 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks
         public async Task<IActionResult> Index()
         {
-            var datacontext = _context.Mark.Include(m => m.Course);
+            var datacontext = _context.Mark.Include(m => m.Course).Include(n => n.Student);
             return View(await datacontext.ToListAsync());
         }
 
@@ -48,8 +48,9 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks/Create
         public IActionResult Create()
         {
-            
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id");
+            ViewData["StudentId"] = _context.Student.ToList();
+            ViewData["CourseId"] = _context.Course.ToList();
+          //  ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id");
             return View();
         }
 
