@@ -10,16 +10,39 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20181224045525_firstadd")]
-    partial class firstadd
+    [Migration("20181226040430_Create-MyCredential-Update2")]
+    partial class CreateMyCredentialUpdate2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("FPTManagerSutdent.Models.Account", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("Salt");
+
+                    b.Property<int>("Status");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Account");
+                });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.ClassRoom", b =>
                 {
@@ -29,9 +52,12 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("Status");
 
@@ -63,11 +89,13 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired();
 
                     b.Property<DateTime>("ExpiredAt");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("Status");
 
@@ -105,11 +133,33 @@ namespace FPTManagerSutdent.Migrations
                     b.ToTable("Mark");
                 });
 
+            modelBuilder.Entity("FPTManagerSutdent.Models.MyCredential", b =>
+                {
+                    b.Property<string>("AccessToken")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime>("ExpireAt");
+
+                    b.Property<int>("OwnerId");
+
+                    b.Property<int>("Status");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.HasKey("AccessToken");
+
+                    b.ToTable("MyCredentials");
+                });
+
             modelBuilder.Entity("FPTManagerSutdent.Models.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccountId");
 
                     b.Property<string>("Address");
 
@@ -134,20 +184,19 @@ namespace FPTManagerSutdent.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
                     b.ToTable("Student");
                 });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.StudentClassRoom", b =>
                 {
-                    b.Property<int>("ClassId");
+                    b.Property<int>("ClassRoomId");
 
                     b.Property<int>("StudentId");
 
-                    b.Property<int?>("ClassRoomId");
-
-                    b.HasKey("ClassId", "StudentId");
-
-                    b.HasIndex("ClassRoomId");
+                    b.HasKey("ClassRoomId", "StudentId");
 
                     b.HasIndex("StudentId");
 
@@ -173,6 +222,8 @@ namespace FPTManagerSutdent.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AccountId");
+
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Email");
@@ -185,6 +236,9 @@ namespace FPTManagerSutdent.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
                     b.ToTable("Teacher");
                 });
 
@@ -196,7 +250,7 @@ namespace FPTManagerSutdent.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FPTManagerSutdent.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("ClassRoomCourses")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -214,11 +268,20 @@ namespace FPTManagerSutdent.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FPTManagerSutdent.Models.Student", b =>
+                {
+                    b.HasOne("FPTManagerSutdent.Models.Account", "Account")
+                        .WithOne("Student")
+                        .HasForeignKey("FPTManagerSutdent.Models.Student", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("FPTManagerSutdent.Models.StudentClassRoom", b =>
                 {
                     b.HasOne("FPTManagerSutdent.Models.ClassRoom", "ClassRoom")
                         .WithMany("StudentClassRooms")
-                        .HasForeignKey("ClassRoomId");
+                        .HasForeignKey("ClassRoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FPTManagerSutdent.Models.Student", "Student")
                         .WithMany("StudentClassRooms")
@@ -236,6 +299,14 @@ namespace FPTManagerSutdent.Migrations
                     b.HasOne("FPTManagerSutdent.Models.Student", "Student")
                         .WithMany("StudentCourses")
                         .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FPTManagerSutdent.Models.Teacher", b =>
+                {
+                    b.HasOne("FPTManagerSutdent.Models.Account", "Account")
+                        .WithOne("Teacher")
+                        .HasForeignKey("FPTManagerSutdent.Models.Teacher", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

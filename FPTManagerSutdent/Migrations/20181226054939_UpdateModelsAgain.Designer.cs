@@ -4,14 +4,16 @@ using FPTManagerSutdent.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    partial class DatacontextModelSnapshot : ModelSnapshot
+    [Migration("20181226054939_UpdateModelsAgain")]
+    partial class UpdateModelsAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,14 +67,13 @@ namespace FPTManagerSutdent.Migrations
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(300);
+                        .IsRequired();
 
                     b.Property<DateTime>("ExpiredAt");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
+
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
@@ -87,8 +88,6 @@ namespace FPTManagerSutdent.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Assignment");
-
-                    b.Property<float>("Calculate");
 
                     b.Property<int>("CourseId");
 
