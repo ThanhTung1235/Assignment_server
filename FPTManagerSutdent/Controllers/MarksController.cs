@@ -48,8 +48,9 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks/Create
         public IActionResult Create()
         {
-            
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id");
+            ViewData["StudentId"] = _context.Student.ToList();
+            ViewData["CourseId"] = _context.Course.ToList();
+          //  ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id");
             return View();
         }
 
