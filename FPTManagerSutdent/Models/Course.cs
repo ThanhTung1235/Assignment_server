@@ -20,7 +20,6 @@ namespace FPTManagerSutdent.Models
         public string Name { get; set; }
         [Required(ErrorMessage = "Maximum length is 300")]
         [StringLength(300)]
-        [Required]
         public string Description { get; set; }
         [Required]
         [DataType(DataType.Date)]

@@ -65,23 +65,14 @@ namespace FPTManagerSutdent.Migrations
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Description")
-<<<<<<< HEAD
-                        .IsRequired();
-=======
                         .IsRequired()
                         .HasMaxLength(300);
->>>>>>> 664af1a326b633bb0c1e4c130f4085d0d61a8a2b
 
                     b.Property<DateTime>("ExpiredAt");
 
                     b.Property<string>("Name")
-<<<<<<< HEAD
-                        .IsRequired();
-=======
                         .IsRequired()
                         .HasMaxLength(50);
->>>>>>> 664af1a326b633bb0c1e4c130f4085d0d61a8a2b
-
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
