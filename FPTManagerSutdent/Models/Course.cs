@@ -13,14 +13,22 @@ namespace FPTManagerSutdent.Models
             this.CreatedAt = DateTime.Now;
             this.Status = CourseStatus.Active;
         }
-        public int Id { get; set; }
         [Required]
+        public int Id { get; set; }
+        [Required(ErrorMessage ="Maximum length is 100")]
+        [StringLength(50)]    
         public string Name { get; set; }
+        [Required(ErrorMessage = "Maximum length is 300")]
+        [StringLength(300)]
         [Required]
         public string Description { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime CreatedAt { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime ExpiredAt { get; set; }
-        public CourseStatus Status { get; set; }
+        public CourseStatus Status { get; set; } 
         public List<Mark> Marks { get; set; }
         public List<StudentCourse> StudentCourses { get; set; }
         public List<ClassRoomCourse> ClassRoomCourses { get; set; }
