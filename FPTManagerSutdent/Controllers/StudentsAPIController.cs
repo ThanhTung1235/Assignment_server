@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +28,78 @@ namespace FPTManagerSutdent.Controllers
         {
             return _context.Student;
         }
+        // lấy ra thông tin sinh viên
+        //[HttpGet("Information")]
+        //public async Task<IActionResult> Information()
+        //{
+
+<<<<<<< HEAD
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    var basicToken = Request.Headers["Authorization"].ToString();
+        //    var token = basicToken.Replace("Basic ", "");
+        //    var existToken = _context.Credential.SingleOrDefault(a => a.AccessToken == token);
+        //    if (existToken != null)
+        //    {
+        //        if (existToken.Status == CredentialStatus.Active && existToken.ExpiredAt >= DateTime.Now)
+        //        {
+        //            var Id = existToken.OwnerId;
+        //            var existAccount = _context.Account.SingleOrDefault(a => a.Id == Id);
+        //            if (existAccount != null)
+        //            {
+        //                Response.StatusCode = (int)HttpStatusCode.NotFound;
+        //                return new JsonResult(existAccount);
+        //            }
+        //            Response.StatusCode = (int)HttpStatusCode.Forbidden;
+        //            return new JsonResult("Forbidden");
+        //        }
+        //    }
+        //    Response.StatusCode = (int)HttpStatusCode.Forbidden;
+        //    return new JsonResult("Not Found");
+        //}
+
+        //xem danh sách học viên trong lớp mình đang theo cũng như thông tin lớp
+
+        //[HttpPost("ListStudentInClass")]
+        //public async Task<IActionResult> ListStudentInClass(Account account)
+        //{
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    var basicToken = Request.Headers["Authorization"].ToString();
+        //    var token = basicToken.Replace("Basic ", "");
+        //    var existToken = _context.Credential.SingleOrDefault(a => a.AccessToken == token);
+        //    if (existToken != null)
+        //    {
+        //        var existAccount = _context.Account.SingleOrDefault(i => i.Id == existToken.OwnerId);
+        //        if (existAccount != null)
+        //        {
+        //        }
+        //    }
+        //    Response.StatusCode = (int)HttpStatusCode.Forbidden;
+        //    return new JsonResult("Not Found");
+        //}
 
 
+
+
+
+
+
+
+
+
+
+
+
+        // Lấy thôn tinsnh viên theo Id
+=======
+
+>>>>>>> 2119772374270782c989ee94223e181fad2baf71
         // GET: api/StudentsAPI/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStudent([FromRoute] int id)
@@ -111,7 +182,6 @@ namespace FPTManagerSutdent.Controllers
 
             return NoContent();
         }
-
         // POST: api/StudentsAPI
         [HttpPost]
         public async Task<IActionResult> PostStudent([FromBody] Student student)
