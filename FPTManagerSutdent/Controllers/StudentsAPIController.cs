@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +28,6 @@ namespace FPTManagerSutdent.Controllers
         {
             return _context.Student;
         }
-
-
         // GET: api/StudentsAPI/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStudent([FromRoute] int id)
@@ -62,7 +61,6 @@ namespace FPTManagerSutdent.Controllers
                 Response.StatusCode = 403;
                 return new JsonResult("Forbidden1");
             }
-
             var isValidPassword = existStudent.CheckLoginPassword(account.Password);
             if (isValidPassword)
             {
@@ -111,7 +109,6 @@ namespace FPTManagerSutdent.Controllers
 
             return NoContent();
         }
-
         // POST: api/StudentsAPI
         [HttpPost]
         public async Task<IActionResult> PostStudent([FromBody] Student student)
