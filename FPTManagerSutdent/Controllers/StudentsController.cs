@@ -45,8 +45,6 @@ namespace FPTManagerSutdent.Controllers
             var student = await _context.Student
                 .Include(s => s.StudentClassRooms)
                 .ThenInclude(scr => scr.ClassRoom)
-                .Include(s => s.StudentCourses)
-                .ThenInclude(sc => sc.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {

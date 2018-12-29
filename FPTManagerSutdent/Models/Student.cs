@@ -58,7 +58,6 @@ namespace FPTManagerSutdent.Models
         public DateTime UpdatedAt { get; set; }
         public StudentStatus Status { get; set; }
         public List<Mark> Marks { get; set; }
-        public List<StudentCourse> StudentCourses { get; set; }
         [Display(Name = "Class Room")]
         public List<StudentClassRoom> StudentClassRooms { get; set; }
 

@@ -103,31 +103,22 @@ namespace FPTManagerSutdent.Controllers
 
         // Lấy danh sách học sinh trong lớp
         [HttpGet("ListStudentInClass")]
-        public IEnumerable<ClassRoom> ListStudent(int classroom)
+        public ClassRoom ListStudent(int classroom)
         {
-            return _context.ClassRoom.Where(c => c.Id == classroom).Include(s => s.StudentClassRooms).ToList();
+            return _context.ClassRoom
+                .Include(s => s.StudentClassRooms)
+                    .ThenInclude(sc => sc.Student)
+                    .SingleOrDefault(c => c.Id == classroom);
+         
         }
 
+        [HttpGet("ListCourse")]
+        public List<Course> ListCourses()
+        {
+            return _context.Course.ToList();
 
-        //[HttpPost("ListStudentInClass")]
-        //public async Task<IActionResult> ListStudentInClass(Student student)
-        //{
+        }
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }classRoomId
-        //    var existToken = _context.MyCredentials.SingleOrDefault(a => a.AccessToken == token);
-        //    if (existToken != null)
-        //    {
-        //        var existAccount = _context.Student.SingleOrDefault(i => i.Id == existToken.OwnerId);
-        //        if (existAccount != null)
-        //        {
-        //        }
-        //    }
-        //    Response.StatusCode = (int)HttpStatusCode.Forbidden;
-        //    return new JsonResult("Not Found");
-        //}
 
     }
 }

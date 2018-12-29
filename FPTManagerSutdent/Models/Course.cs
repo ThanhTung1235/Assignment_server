@@ -29,7 +29,6 @@ namespace FPTManagerSutdent.Models
         public DateTime ExpiredAt { get; set; }
         public CourseStatus Status { get; set; } 
         public List<Mark> Marks { get; set; }
-        public List<StudentCourse> StudentCourses { get; set; }
         public List<ClassRoomCourse> ClassRoomCourses { get; set; }
     }
 
