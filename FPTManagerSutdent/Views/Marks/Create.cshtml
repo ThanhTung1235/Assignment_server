@@ -2,12 +2,9 @@
 
 @{
     ViewData["Title"] = "Create";
-    var listStudent = ViewData["StudentId"] as List<Student>;
-    var listCourse = ViewData["CourseId"] as List<Course>;
-
 }
 
-<h2>Thêm điểm</h2>
+<h2>Create</h2>
 
 <h4>Mark</h4>
 <hr />
@@ -16,43 +13,30 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Theory" class="control-label"></label>
-                <input asp-for="Theory" class="form-control" />
-                <span asp-validation-for="Theory" class="text-danger"></span>
+                <label>ASSIGNMENT </label>
+                <input type="type" name="@MarkType.ASSIGNMENT" value="" />
             </div>
             <div class="form-group">
-                <label asp-for="Practice" class="control-label"></label>
-                <input asp-for="Practice" class="form-control" />
-                <span asp-validation-for="Practice" class="text-danger"></span>
+                <label>PRATICE</label>
+                <input type="type" name="@MarkType.PRATICE" value="" />
             </div>
             <div class="form-group">
-                <label asp-for="Assignment" class="control-label"></label>
-                <input asp-for="Assignment" class="form-control" />
-                <span asp-validation-for="Assignment" class="text-danger"></span>
+                <label>THEORY</label>
+                <input type="type" name="@MarkType.THEORY" value="" />
             </div>
-            <div>
-                <label asp-for="Course" class="control-label"></label>
-                <select asp-for="CourseId" class="form-control">
-                    @foreach (var course in listCourse)
-                    {
-                        <option value="@course.Id">@course.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="CourseId" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
             </div>
-            
-            <div>
-                <label asp-for="Student" class="control-label"></label>
-                <select asp-for="StudentId" class="form-control">
-                    @foreach (var student in listStudent)
-                    {
-                        <option value="@student.Id">@student.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="StudentId" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="CourseId" class="control-label"></label>
+                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
             </div>
-            
-      
+            <div class="form-group">
+                <label asp-for="StudentId" class="control-label"></label>
+                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentId"></select>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -64,6 +48,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

@@ -9,24 +9,50 @@ namespace FPTManagerSutdent.Models
 {
     public class Mark
     {
+        public static int MAX_THEORY = 100;
+        public static int MAX_PRATICE = 15;
+        private static int MAX_ASSIGNMENT = 10;
+
         public Mark()
         {
+            this.Value = 0;
+            this.Type = MarkType.THEORY;
+            this.calculateMarkStatus();
             this.CreatedAt = DateTime.Now;
             this.UpdateAt = DateTime.Now;
-            this.Practice = 0;
-            this.Theory = 0;
-            this.Assignment = 0;
         }
+
+        public Mark(MarkType type, int value)
+        {
+            this.Value = value;
+            this.Type = type;
+            this.calculateMarkStatus();
+            this.CreatedAt = DateTime.Now;
+            this.UpdateAt = DateTime.Now;
+        }
+
+        public void calculateMarkStatus() {
+            int maximum = 0;
+            if (this.Type == MarkType.THEORY)
+            {
+                maximum = MAX_THEORY;
+            }
+            else if (this.Type == MarkType.PRATICE)
+            {
+                maximum = MAX_PRATICE;
+            }
+            else if (this.Type == MarkType.ASSIGNMENT)
+            {
+                maximum = MAX_ASSIGNMENT;
+            }
+            this.Status = (this.Value / maximum) * 100 >= 40 ? MarkStatus.PASS : MarkStatus.FAIL;
+        }
+
         [Required]
         public int Id { get; set; }
         [Required]
-        public int Theory { get; set; }
-        [Required]
-        public int Practice { get; set; }
-        [Required]
-        public int Assignment { get; set; }
-        [Required]
-        public float Calculate { get; set; }
+        public MarkType Type { get; set; }
+        public int Value { get; set; }
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; }
@@ -39,15 +65,19 @@ namespace FPTManagerSutdent.Models
         public int StudentId { get; set; }
         [ForeignKey("StudentId")]
         public Student Student { get; set; }
+        public MarkStatus Status { get; set; }
+       
+    }
 
-        public void CalculateScore()
-        {
-            this.Calculate = TotalScore(this.Theory, this.Practice, this.Assignment);
-        }
-        
-        public float TotalScore(int Theory, int Practice, int Assignment)
-        {
-            return ((Theory * 10 + (Practice + Assignment)*4))/ 2;
-        }
+    public enum MarkType
+    {
+        THEORY = 1,
+        PRATICE = 2,
+        ASSIGNMENT = 3
+    }
+    public enum MarkStatus
+    {
+        PASS = 1,
+        FAIL = 0
     }
 }

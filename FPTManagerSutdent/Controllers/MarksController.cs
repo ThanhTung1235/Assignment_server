@@ -22,7 +22,7 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks
         public async Task<IActionResult> Index()
         {
-            var datacontext = _context.Mark.Include(m => m.Course).Include(n => n.Student);
+            var datacontext = _context.Mark.Include(m => m.Course).Include(m => m.Student);
             return View(await datacontext.ToListAsync());
         }
 
@@ -36,7 +36,8 @@ namespace FPTManagerSutdent.Controllers
 
             var mark = await _context.Mark
                 .Include(m => m.Course)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(m => m.Student)
+                .FirstOrDefaultAsync(m => m.CourseId == id);
             if (mark == null)
             {
                 return NotFound();
@@ -48,9 +49,8 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks/Create
         public IActionResult Create()
         {
-            ViewData["StudentId"] = _context.Student.ToList();
-            ViewData["CourseId"] = _context.Course.ToList();
-          //  ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id");
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Description");
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Email");
             return View();
         }
 
@@ -59,16 +59,16 @@ namespace FPTManagerSutdent.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Theory,Practice,Assignment,CreatedAt,UpdateAt,CourseId,StudentId")] Mark mark)
+        public async Task<IActionResult> Create([Bind("Type,Value,CreatedAt,UpdateAt,CourseId,StudentId,Status")] Mark mark)
         {
             if (ModelState.IsValid)
             {
-                mark.CalculateScore();
                 _context.Add(mark);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id", mark.CourseId);
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Description", mark.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Email", mark.StudentId);
             return View(mark);
         }
 
@@ -85,7 +85,8 @@ namespace FPTManagerSutdent.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id", mark.CourseId);
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Description", mark.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Email", mark.StudentId);
             return View(mark);
         }
 
@@ -94,9 +95,9 @@ namespace FPTManagerSutdent.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Theory,Practice,Assignment,CreatedAt,UpdateAt,CourseId,StudentId")] Mark mark)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Value,CreatedAt,UpdateAt,CourseId,StudentId,Status")] Mark mark)
         {
-            if (id != mark.Id)
+            if (id != mark.CourseId)
             {
                 return NotFound();
             }
@@ -110,7 +111,7 @@ namespace FPTManagerSutdent.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MarkExists(mark.Id))
+                    if (!MarkExists(mark.CourseId))
                     {
                         return NotFound();
                     }
@@ -121,7 +122,8 @@ namespace FPTManagerSutdent.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id", mark.CourseId);
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Description", mark.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Email", mark.StudentId);
             return View(mark);
         }
 
@@ -135,7 +137,8 @@ namespace FPTManagerSutdent.Controllers
 
             var mark = await _context.Mark
                 .Include(m => m.Course)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(m => m.Student)
+                .FirstOrDefaultAsync(m => m.CourseId == id);
             if (mark == null)
             {
                 return NotFound();
@@ -157,7 +160,7 @@ namespace FPTManagerSutdent.Controllers
 
         private bool MarkExists(int id)
         {
-            return _context.Mark.Any(e => e.Id == id);
+            return _context.Mark.Any(e => e.CourseId == id);
         }
     }
 }

@@ -11,5 +11,14 @@ namespace FPTManagerSutdent.Models
         public int ClassRoomId { get; set; }
         public Student Student { get; set; }
         public ClassRoom ClassRoom { get; set; }
+        public DateTime JoinedAt { get; set; }
+        public DateTime LeftAt { get; set; }
+        public StudentClassRoomStatus Status { get; set; }
+    }
+
+    public enum StudentClassRoomStatus
+    {
+        Active = 1,
+        Deactive = 0
     }
 }

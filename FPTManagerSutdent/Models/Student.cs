@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -40,7 +41,9 @@ namespace FPTManagerSutdent.Models
         [Required(ErrorMessage = "The email address is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
+        [JsonIgnore]
         public string Password { get; set; }
+        [JsonIgnore]
         public string Salt { get; set; }
         public GenderStudent Gender { get; set; }
         [DataType(DataType.PhoneNumber)]
@@ -55,7 +58,6 @@ namespace FPTManagerSutdent.Models
         public DateTime UpdatedAt { get; set; }
         public StudentStatus Status { get; set; }
         public List<Mark> Marks { get; set; }
-        public List<StudentCourse> StudentCourses { get; set; }
         [Display(Name = "Class Room")]
         public List<StudentClassRoom> StudentClassRooms { get; set; }
 

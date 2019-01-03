@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FPTManagerSutdent.Data;
 using FPTManagerSutdent.Models;
+using System.Net;
 
 namespace FPTManagerSutdent.Controllers
 {
@@ -21,13 +21,15 @@ namespace FPTManagerSutdent.Controllers
         {
             _context = context;
         }
-
+        // List student
         // GET: api/StudentsAPI
         [HttpGet]
         public IEnumerable<Student> GetStudent()
         {
             return _context.Student;
         }
+
+        // Thông tin sinh viên theo Id
         // GET: api/StudentsAPI/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStudent([FromRoute] int id)
@@ -36,17 +38,24 @@ namespace FPTManagerSutdent.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            var student = await _context.Student.FindAsync(id);
-
-            if (student == null)
+            var basicToken = Request.Headers["Authorization"].ToString();
+            var token = basicToken.Replace("Basic ", "");
+            var existToken = _context.MyCredentials.SingleOrDefault(a => a.AccessToken == token);
+            if (existToken != null)
             {
-                return NotFound();
+                var student = await _context.Student.FindAsync(id);
+                if (student == null)
+                {
+                    return NotFound();
+                }
+                return Ok(student);
             }
-
-            return Ok(student);
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            return new JsonResult("Not Found");
+            
         }
 
+        // Login 
         [HttpPost("authentication")]
         public IActionResult Authentication([FromBody] Account account)
         {
@@ -61,6 +70,7 @@ namespace FPTManagerSutdent.Controllers
                 Response.StatusCode = 403;
                 return new JsonResult("Forbidden1");
             }
+
             var isValidPassword = existStudent.CheckLoginPassword(account.Password);
             if (isValidPassword)
             {
@@ -74,59 +84,41 @@ namespace FPTManagerSutdent.Controllers
             return new JsonResult("Forbidden2");
         }
 
+        //Sửa thông tin sinh viên
+        [HttpPost("change-information")]        public async Task<IActionResult> ChangeInformation(Student student)        {            if (!ModelState.IsValid)            {                return new JsonResult("BadRequest");            }            var basicToken = Request.Headers["Authorization"].ToString();            var token = basicToken.Replace("Basic ", "");            var existToken = _context.MyCredentials.SingleOrDefault(a => a.AccessToken == token);            if (existToken != null)            {                var existAccount = _context.Student.SingleOrDefault(i => i.Id == existToken.OwnerId);                if (existAccount != null)                {                        var email = student.Email;
+                        existAccount.Address = email;
 
-        // PUT: api/StudentsAPI/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudent([FromRoute] int id, [FromBody] Student student)
+                        var name = student.Name;
+                        existAccount.Name = name;
+
+                        var phone = student.Phone;                        existAccount.Phone = phone;                        var address = student.Address;                        existAccount.Address = address;
+
+                        var dob = student.DoB;
+                        existAccount.DoB = dob;
+
+                        var gender = student.Gender;
+                        existAccount.Gender = gender;
+
+                        _context.Student.Update(existAccount);                        _context.SaveChanges();                        Response.StatusCode = (int)HttpStatusCode.OK;                        return new JsonResult(existAccount);                }                return new JsonResult(existAccount);            }            Response.StatusCode = (int)HttpStatusCode.Forbidden;            return new JsonResult("Forbidden");        }
+
+        // Lấy danh sách học sinh trong lớp
+        [HttpGet("ListStudentInClass")]
+        public ClassRoom ListStudent(int classroom)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != student.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(student).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StudentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-        // POST: api/StudentsAPI
-        [HttpPost]
-        public async Task<IActionResult> PostStudent([FromBody] Student student)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _context.Student.Update(student);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetStudent", new { id = student.Id }, student);
+            return _context.ClassRoom
+                .Include(s => s.StudentClassRooms)
+                    .ThenInclude(sc => sc.Student)
+                    .SingleOrDefault(c => c.Id == classroom);
+         
         }
 
-        private bool StudentExists(int id)
+        [HttpGet("ListCourse")]
+        public List<Course> ListCourses()
         {
-            return _context.Student.Any(e => e.Id == id);
+            return _context.Course.ToList();
+
         }
+
+
     }
 }
