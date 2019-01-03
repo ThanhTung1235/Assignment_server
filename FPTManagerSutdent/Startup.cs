@@ -62,6 +62,7 @@ namespace FPTManagerSutdent
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
             app.UseSession();
             app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/*"), HandleMapCheckToken);
             app.UseMvc(routes =>

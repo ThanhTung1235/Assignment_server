@@ -15,7 +15,6 @@ namespace FPTManagerSutdent.Data
         }
         public DbSet<Student> Student { get; set; }
         public DbSet<Course> Course { get; set; }
-        public DbSet<Teacher> Teacher { get; set; }
         public DbSet<ClassRoom> ClassRoom { get; set; }
         public DbSet<MyCredential> MyCredentials { get; set; }
         public DbSet<Mark> Mark { get; set; }
