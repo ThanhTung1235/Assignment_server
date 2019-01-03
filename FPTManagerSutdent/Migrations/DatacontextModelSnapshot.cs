@@ -73,6 +73,7 @@ namespace FPTManagerSutdent.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
+
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
@@ -82,29 +83,23 @@ namespace FPTManagerSutdent.Migrations
 
             modelBuilder.Entity("FPTManagerSutdent.Models.Mark", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Assignment");
-
-                    b.Property<float>("Calculate");
-
                     b.Property<int>("CourseId");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int>("Practice");
 
                     b.Property<int>("StudentId");
 
-                    b.Property<int>("Theory");
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<int>("Id");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int>("Type");
 
                     b.Property<DateTime>("UpdateAt");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Value");
 
-                    b.HasIndex("CourseId");
+                    b.HasKey("CourseId", "StudentId");
 
                     b.HasIndex("StudentId");
 
@@ -173,24 +168,17 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<int>("StudentId");
 
+                    b.Property<DateTime>("JoinedAt");
+
+                    b.Property<DateTime>("LeftAt");
+
+                    b.Property<int>("Status");
+
                     b.HasKey("ClassRoomId", "StudentId");
 
                     b.HasIndex("StudentId");
 
                     b.ToTable("StudentClassRoom");
-                });
-
-            modelBuilder.Entity("FPTManagerSutdent.Models.StudentCourse", b =>
-                {
-                    b.Property<int>("CourseId");
-
-                    b.Property<int>("StudentId");
-
-                    b.HasKey("CourseId", "StudentId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("StudentCourse");
                 });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.Teacher", b =>
@@ -201,9 +189,12 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
                     b.Property<int>("Status");
 
@@ -249,19 +240,6 @@ namespace FPTManagerSutdent.Migrations
 
                     b.HasOne("FPTManagerSutdent.Models.Student", "Student")
                         .WithMany("StudentClassRooms")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("FPTManagerSutdent.Models.StudentCourse", b =>
-                {
-                    b.HasOne("FPTManagerSutdent.Models.Course", "Course")
-                        .WithMany("StudentCourses")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("FPTManagerSutdent.Models.Student", "Student")
-                        .WithMany("StudentCourses")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

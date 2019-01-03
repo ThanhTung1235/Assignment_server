@@ -19,9 +19,6 @@
                 Lớp
             </th>
             <th>
-                Môn học
-            </th>
-            <th>
                 Số Điện Thoại
             </th>
             <th>
@@ -41,12 +38,6 @@
                 @foreach (var scr in Model.StudentClassRooms)
                 {
                     <p>@scr.ClassRoom.Name</p>
-                }
-            </td>
-            <td>
-                @foreach (var sc in Model.StudentCourses)
-                {
-                    <p>@sc.Course.Name</p>
                 }
             </td>
             <td>

@@ -21,7 +21,7 @@ namespace FPTManagerSutdent.Controllers
         {
             _context = context;
         }
-
+        // List student
         // GET: api/StudentsAPI
         [HttpGet]
         public IEnumerable<Student> GetStudent()
@@ -55,7 +55,7 @@ namespace FPTManagerSutdent.Controllers
             
         }
 
-
+        // Login 
         [HttpPost("authentication")]
         public IActionResult Authentication([FromBody] Account account)
         {

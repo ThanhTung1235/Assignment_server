@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20181226040430_Create-MyCredential-Update2")]
-    partial class CreateMyCredentialUpdate2
+    [Migration("20181229034843_Create-Migrate")]
+    partial class CreateMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,29 +20,6 @@ namespace FPTManagerSutdent.Migrations
                 .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("FPTManagerSutdent.Models.Account", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("Password");
-
-                    b.Property<string>("Salt");
-
-                    b.Property<int>("Status");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Account");
-                });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.ClassRoom", b =>
                 {
@@ -90,12 +67,14 @@ namespace FPTManagerSutdent.Migrations
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Description")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(300);
 
                     b.Property<DateTime>("ExpiredAt");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<int>("Status");
 
@@ -106,27 +85,23 @@ namespace FPTManagerSutdent.Migrations
 
             modelBuilder.Entity("FPTManagerSutdent.Models.Mark", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Assignment");
-
                     b.Property<int>("CourseId");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int>("Practice");
 
                     b.Property<int>("StudentId");
 
-                    b.Property<int>("Theory");
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<int>("Id");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int>("Type");
 
                     b.Property<DateTime>("UpdateAt");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Value");
 
-                    b.HasIndex("CourseId");
+                    b.HasKey("CourseId", "StudentId");
 
                     b.HasIndex("StudentId");
 
@@ -159,8 +134,6 @@ namespace FPTManagerSutdent.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId");
-
                     b.Property<string>("Address");
 
                     b.Property<DateTime>("CreatedAt");
@@ -176,16 +149,17 @@ namespace FPTManagerSutdent.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
+                    b.Property<string>("Password");
+
                     b.Property<string>("Phone");
+
+                    b.Property<string>("Salt");
 
                     b.Property<int>("Status");
 
                     b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
 
                     b.ToTable("Student");
                 });
@@ -196,24 +170,17 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<int>("StudentId");
 
+                    b.Property<DateTime>("JoinedAt");
+
+                    b.Property<DateTime>("LeftAt");
+
+                    b.Property<int>("Status");
+
                     b.HasKey("ClassRoomId", "StudentId");
 
                     b.HasIndex("StudentId");
 
                     b.ToTable("StudentClassRoom");
-                });
-
-            modelBuilder.Entity("FPTManagerSutdent.Models.StudentCourse", b =>
-                {
-                    b.Property<int>("CourseId");
-
-                    b.Property<int>("StudentId");
-
-                    b.HasKey("CourseId", "StudentId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("StudentCourse");
                 });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.Teacher", b =>
@@ -222,22 +189,20 @@ namespace FPTManagerSutdent.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId");
-
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
                     b.Property<int>("Status");
 
                     b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
 
                     b.ToTable("Teacher");
                 });
@@ -268,14 +233,6 @@ namespace FPTManagerSutdent.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FPTManagerSutdent.Models.Student", b =>
-                {
-                    b.HasOne("FPTManagerSutdent.Models.Account", "Account")
-                        .WithOne("Student")
-                        .HasForeignKey("FPTManagerSutdent.Models.Student", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("FPTManagerSutdent.Models.StudentClassRoom", b =>
                 {
                     b.HasOne("FPTManagerSutdent.Models.ClassRoom", "ClassRoom")
@@ -286,27 +243,6 @@ namespace FPTManagerSutdent.Migrations
                     b.HasOne("FPTManagerSutdent.Models.Student", "Student")
                         .WithMany("StudentClassRooms")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("FPTManagerSutdent.Models.StudentCourse", b =>
-                {
-                    b.HasOne("FPTManagerSutdent.Models.Course", "Course")
-                        .WithMany("StudentCourses")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("FPTManagerSutdent.Models.Student", "Student")
-                        .WithMany("StudentCourses")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("FPTManagerSutdent.Models.Teacher", b =>
-                {
-                    b.HasOne("FPTManagerSutdent.Models.Account", "Account")
-                        .WithOne("Teacher")
-                        .HasForeignKey("FPTManagerSutdent.Models.Teacher", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
