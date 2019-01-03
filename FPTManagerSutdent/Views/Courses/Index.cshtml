@@ -11,33 +11,45 @@
         <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
     </p>
 </div>
-<table class="table">
+<table id="tablepaging" class="table yui">
     <thead>
         <tr>
             <th>
                 Tên môn học
-            </th>          
+            </th>
             <th>
                 Thông tin môn học
+            </th>
+            <th>
+                Thao Tác
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>           
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-                
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div id="pageNavPosition" style="padding-top: 20px" align="right">
+</div>
+<script type="text/javascript">
+    var pager = new Pager('tablepaging', 10);
+    pager.init();
+    pager.showPageNav('pager', 'pageNavPosition');
+    pager.showPage(1);
+</script>

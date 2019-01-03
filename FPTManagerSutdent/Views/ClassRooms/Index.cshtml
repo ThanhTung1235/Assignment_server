@@ -11,7 +11,7 @@
         <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
     </p>
 </div>
-<table class="table">
+<table id="tablepaging" class="table yui">
     <thead>
         <tr>
             <th>
@@ -22,6 +22,9 @@
             </th>
             <th>
                 Ngày lớp hoạt động
+            </th>
+            <th>
+                Thao Tác
             </th>
         </tr>
     </thead>
@@ -51,3 +54,11 @@
         }
     </tbody>
 </table>
+<div id="pageNavPosition" style="padding-top: 20px" align="right">
+</div>
+<script type="text/javascript">
+    var pager = new Pager('tablepaging', 5);
+    pager.init();
+    pager.showPageNav('pager', 'pageNavPosition');
+    pager.showPage(1);
+</script>
