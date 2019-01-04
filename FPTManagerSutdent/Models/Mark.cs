@@ -9,7 +9,7 @@ namespace FPTManagerSutdent.Models
 {
     public class Mark
     {
-        public static int MAX_THEORY = 100;
+        public static int MAX_THEORY = 10;
         public static int MAX_PRATICE = 15;
         private static int MAX_ASSIGNMENT = 10;
 
@@ -52,6 +52,7 @@ namespace FPTManagerSutdent.Models
         public int Id { get; set; }
         [Required]
         public MarkType Type { get; set; }
+        public int TypeMark { get; set; }
         public int Value { get; set; }
         [Required]
         [DataType(DataType.DateTime)]
