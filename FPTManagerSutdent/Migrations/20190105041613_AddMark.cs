@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FPTManagerSutdent.Migrations
 {
-    public partial class CreateMigrate : Migration
+    public partial class AddMark : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -82,23 +82,6 @@ namespace FPTManagerSutdent.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teacher",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 30, nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teacher", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ClassRoomCourse",
                 columns: table => new
                 {
@@ -128,6 +111,7 @@ namespace FPTManagerSutdent.Migrations
                 {
                     Id = table.Column<int>(nullable: false),
                     Type = table.Column<int>(nullable: false),
+                    TypeMark = table.Column<int>(nullable: false),
                     Value = table.Column<int>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdateAt = table.Column<DateTime>(nullable: false),
@@ -138,6 +122,7 @@ namespace FPTManagerSutdent.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mark", x => new { x.CourseId, x.StudentId });
+                    table.UniqueConstraint("AK_Mark_Id", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Mark_Course_CourseId",
                         column: x => x.CourseId,
@@ -208,9 +193,6 @@ namespace FPTManagerSutdent.Migrations
 
             migrationBuilder.DropTable(
                 name: "StudentClassRoom");
-
-            migrationBuilder.DropTable(
-                name: "Teacher");
 
             migrationBuilder.DropTable(
                 name: "Course");

@@ -19,11 +19,16 @@
                 <h5 class="text-danger">@TempData["Fail"]</h5>
             </div>
             <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
                 <select asp-for="Type" class="form-control">
-                    <option value="1">Theory</option>
-                    <option value="2">Pratice</option>
-                    <option value="3">Assignment</option>
+                    <option value="@MarkType.THEORY">Theory</option>
+                    <option value="@MarkType.PRATICE">Pratice</option>
+                    <option value="@MarkType.ASSIGNMENT">Assignment</option>
                 </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FPTManagerSutdent.Models
 {
@@ -12,6 +9,22 @@ namespace FPTManagerSutdent.Models
         public static int MAX_THEORY = 10;
         public static int MAX_PRATICE = 15;
         private static int MAX_ASSIGNMENT = 10;
+
+        public int Id { get; set; }
+        public MarkType Type { get; set; }
+        public int Value { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime CreatedAt { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime UpdateAt { get; set; }
+        public int CourseId { get; set; }
+        [ForeignKey("CourseId")]
+        public Course Course { get; set; }
+        public int StudentId { get; set; }
+        [ForeignKey("StudentId")]
+        public Student Student { get; set; }
+        public MarkStatus Status { get; set; }
+
 
         public Mark()
         {
@@ -48,26 +61,6 @@ namespace FPTManagerSutdent.Models
             this.Status = (this.Value / maximum) * 100 >= 40 ? MarkStatus.PASS : MarkStatus.FAIL;
         }
 
-        [Required]
-        public int Id { get; set; }
-        [Required]
-        public MarkType Type { get; set; }
-        public int TypeMark { get; set; }
-        public int Value { get; set; }
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime UpdateAt { get; set; }
-        public int CourseId { get; set; }
-        [ForeignKey("CourseId")]
-        public Course Course { get; set; }
-        public int StudentId { get; set; }
-        [ForeignKey("StudentId")]
-        public Student Student { get; set; }
-        public MarkStatus Status { get; set; }
-       
     }
 
     public enum MarkType

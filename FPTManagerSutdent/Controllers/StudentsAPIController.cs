@@ -43,7 +43,7 @@ namespace FPTManagerSutdent.Controllers
             var existToken = _context.MyCredentials.SingleOrDefault(a => a.AccessToken == token);
             if (existToken != null)
             {
-                var student = await _context.Student.FindAsync(id);
+                var student = _context.Student.Include(s => s.StudentClassRooms).SingleOrDefault(s => s.Id == id);
                 if (student == null)
                 {
                     return NotFound();
@@ -119,6 +119,28 @@ namespace FPTManagerSutdent.Controllers
 
         }
 
+        [HttpGet("GetMarks/{id}")]
+        public async Task<IActionResult> GetMarks([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var basicToken = Request.Headers["Authorization"].ToString();
+            var token = basicToken.Replace("Basic ", "");
+            var existToken = _context.MyCredentials.SingleOrDefault(a => a.AccessToken == token);
+            if (existToken != null)
+            {
+                var student = _context.Student.Include(s => s.Marks).SingleOrDefault(s => s.Id == id);
+                if (student == null)
+                {
+                    return NotFound();
+                }
+                return Ok(student);
+            }
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            return new JsonResult("Not Found");
 
+        }
     }
 }
