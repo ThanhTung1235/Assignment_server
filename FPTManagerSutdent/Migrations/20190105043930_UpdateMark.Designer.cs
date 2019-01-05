@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20190104050434_addmark")]
-    partial class addmark
+    [Migration("20190105043930_UpdateMark")]
+    partial class UpdateMark
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,19 +91,19 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("Id");
+                    b.Property<int>("IdMark");
 
                     b.Property<int>("Status");
 
                     b.Property<int>("Type");
-
-                    b.Property<int>("TypeMark");
 
                     b.Property<DateTime>("UpdateAt");
 
                     b.Property<int>("Value");
 
                     b.HasKey("CourseId", "StudentId");
+
+                    b.HasAlternateKey("IdMark");
 
                     b.HasIndex("StudentId");
 

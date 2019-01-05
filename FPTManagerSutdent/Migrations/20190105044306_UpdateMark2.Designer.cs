@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20181229034843_Create-Migrate")]
-    partial class CreateMigrate
+    [Migration("20190105044306_UpdateMark2")]
+    partial class UpdateMark2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -181,30 +181,6 @@ namespace FPTManagerSutdent.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("StudentClassRoom");
-                });
-
-            modelBuilder.Entity("FPTManagerSutdent.Models.Teacher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30);
-
-                    b.Property<int>("Status");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teacher");
                 });
 
             modelBuilder.Entity("FPTManagerSutdent.Models.ClassRoomCourse", b =>

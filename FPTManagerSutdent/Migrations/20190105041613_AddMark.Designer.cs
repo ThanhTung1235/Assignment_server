@@ -4,14 +4,16 @@ using FPTManagerSutdent.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    partial class DatacontextModelSnapshot : ModelSnapshot
+    [Migration("20190105041613_AddMark")]
+    partial class AddMark
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,11 +97,15 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<int>("Type");
 
+                    b.Property<int>("TypeMark");
+
                     b.Property<DateTime>("UpdateAt");
 
                     b.Property<int>("Value");
 
                     b.HasKey("CourseId", "StudentId");
+
+                    b.HasAlternateKey("Id");
 
                     b.HasIndex("StudentId");
 

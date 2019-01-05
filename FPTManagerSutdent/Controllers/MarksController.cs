@@ -59,9 +59,9 @@ namespace FPTManagerSutdent.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Type,Value,CourseId,StudentId")] Mark mark)
+        public async Task<IActionResult> Create([Bind("Id,Type,Value,CourseId,StudentId")] Mark mark)
         {
-            Mark checkMark =_context.Mark.Where(a => a.StudentId == mark.StudentId).Where(m => m.Type == mark.Type)
+            var checkMark = _context.Mark.Where(a => a.StudentId == mark.StudentId).Where(m => m.Type == mark.Type)
                 .Where(d => d.CourseId == mark.CourseId).FirstOrDefault();
             if (checkMark != null)
             {
@@ -83,7 +83,7 @@ namespace FPTManagerSutdent.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Name", mark.CourseId);
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Description", mark.CourseId);
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Email", mark.StudentId);
             return View(mark);
         }
@@ -101,7 +101,7 @@ namespace FPTManagerSutdent.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Name", mark.CourseId);
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Description", mark.CourseId);
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Email", mark.StudentId);
             return View(mark);
         }
@@ -111,7 +111,7 @@ namespace FPTManagerSutdent.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,TypeMark,Value,CreatedAt,UpdateAt,CourseId,StudentId,Status")] Mark mark)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Value,CreatedAt,UpdateAt,CourseId,StudentId,Status")] Mark mark)
         {
             if (id != mark.CourseId)
             {
