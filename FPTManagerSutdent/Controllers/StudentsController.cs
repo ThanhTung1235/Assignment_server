@@ -93,6 +93,8 @@ namespace FPTManagerSutdent.Controllers
         // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var cs = _context.ClassRoom.ToList();
+            ViewData["cs"] = cs;
             if (id == null)
             {
                 return NotFound();
@@ -111,7 +113,7 @@ namespace FPTManagerSutdent.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,Salt,Gender,Phone,Address,DoB,CreatedAt,UpdatedAt,Status")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Gender,Phone,Address,DoB")] Student student, int[] ClassRoomId)
         {
             if (id != student.Id)
             {
@@ -120,6 +122,16 @@ namespace FPTManagerSutdent.Controllers
 
             if (ModelState.IsValid)
             {
+                foreach (var ide in ClassRoomId)
+                {
+                    var classroom = _context.ClassRoom.Find(ide);
+                    StudentClassRoom sc = new StudentClassRoom
+                    {
+                        ClassRoom = classroom,
+                        Student = student
+                    };
+                    _context.Add(sc);
+                }
                 try
                 {
                     _context.Update(student);
