@@ -5,77 +5,67 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Danh sách sinh viên</h2>
-<div class="create" style="text-align: right">
-    <p>
-        <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
-    </p>
+
+<div class="row m-t-30">
+    <div class="col-md-12">
+        <div>
+            Danh sách sinh viên
+            <div class="create pull-right" style="text-align: right">
+                <p>
+                    <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
+                </p>
+            </div>
+        </div>
+        <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2">
+                <thead>
+                    <tr>
+                        <th>Tên sinh viên</th>
+                        <th>Email</th>
+                        <th>Giới tính</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Ngày sinh</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="tr-shadow">
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>
+                                <span class="block-email">@Html.DisplayFor(modelItem => item.Email)</span>
+                            </td>
+                            <td class="desc">@Html.DisplayFor(modelItem => item.Gender)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                            <td>
+                                <span class="status--process">@Html.DisplayFor(modelItem => item.Address)</span>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.DoB)</td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="item" data-original-title="Edit">
+                                        <i class="zmdi zmdi-edit"></i>
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="item" data-original-title="More">
+                                        <i class="zmdi zmdi-more"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="item"  data-original-title="Delete">
+                                        <i class="zmdi zmdi-delete"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- END DATA TABLE -->
+    </div>
 </div>
-<form asp-controller="Students" asp-action="Index">
-    <p>
-        <input type="text" placeholder=" Nhập tên, email ..." name="SearchString">
-        <input type="submit" value="Tìm Kiếm" />
-    </p>
-</form>
 
-
-<table id="tablepaging" class="table yui">
-    <thead>
-        <tr>
-            <th>
-                Tên sinh viên
-            </th>
-            <th>
-                Email
-            </th>
-            <th>
-                Giới tính
-            </th>
-            <th>
-                Số điện thoại
-            </th>
-            <th>
-                Địa chỉ
-            </th>
-            <th>
-                Ngày sinh
-            </th>
-            <th>
-                Thao Tác
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DoB)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 <div id="pageNavPosition" style="padding-top: 20px" align="right">
 </div>
 <script type="text/javascript">

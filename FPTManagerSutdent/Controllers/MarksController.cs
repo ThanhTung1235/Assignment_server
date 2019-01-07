@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FPTManagerSutdent.Data;
 using FPTManagerSutdent.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace FPTManagerSutdent.Controllers
 {
@@ -22,6 +23,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             var datacontext = _context.Mark.Include(m => m.Course).Include(m => m.Student);
             return View(await datacontext.ToListAsync());
         }
@@ -29,6 +34,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -49,6 +58,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Name");
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Name");
             return View();
@@ -61,6 +74,10 @@ namespace FPTManagerSutdent.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Type,Value,CreatedAt,UpdateAt,CourseId,StudentId,Status")] Mark mark)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             var checkMark = _context.Mark.Where(a => a.StudentId == mark.StudentId).Where(m => m.Type == mark.Type)
                 .Where(d => d.CourseId == mark.CourseId).FirstOrDefault();
             if (checkMark != null)
@@ -91,6 +108,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -113,6 +134,10 @@ namespace FPTManagerSutdent.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Value,CreatedAt,UpdateAt,CourseId,StudentId,Status")] Mark mark)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (id != mark.Id)
             {
                 return NotFound();
@@ -146,6 +171,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: Marks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (id == null)
             {
                 return NotFound();

@@ -80,6 +80,9 @@ img {
 p {
     margin: 0;
 }
+.page-container.page-login {
+    padding-left: inherit;
+}
 
 .table-responsive {
     padding-right: 1px;
@@ -95,8 +98,16 @@ p {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+    padding: 10px 20px;
 }
 
+.paddingtable tbody tr td {
+    padding: 10px 0 0px 40px;
+}
+
+.btn-cus {
+    font-size: 13px;
+}
 /* ----- Typography ----- */
 body {
     font-family: "Poppins", sans-serif;
@@ -1139,6 +1150,7 @@ section {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
+    font-size: 14px;
 }
 
 .card {

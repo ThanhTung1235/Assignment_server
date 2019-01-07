@@ -4,52 +4,61 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Danh sách các môn học</h2>
-
-<div class="create" style="text-align: right">
-    <p>
-        <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
-    </p>
+<div class="row m-t-30">
+    <div class="col-md-12">
+        <div>
+            Danh sách môn học
+            <div class="create pull-right" style="text-align: right">
+                <p>
+                    <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
+                </p>
+            </div>
+        </div>
+        <div class="table-responsive table-responsive-data2">
+            <table id="tablepaging" class="table table-data2">
+                <thead>
+                    <tr>
+                        <th>Tên môn học</th>
+                        <th>Thông tin môn học</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="tr-shadow">
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="item" data-original-title="Edit">
+                                        <i class="zmdi zmdi-edit"></i>
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="item" data-original-title="More">
+                                        <i class="zmdi zmdi-more"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="item" data-original-title="Delete">
+                                        <i class="zmdi zmdi-delete"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+                    }
+                </tbody>
+            </table>
+            <div id="pageNavPosition" style="padding-top: 20px" align="right">
+            </div>
+            <script type="text/javascript">
+                var pager = new Pager('tablepaging', 10);
+                pager.init();
+                pager.showPageNav('pager', 'pageNavPosition');
+                pager.showPage(1);
+            </script>
+        </div>
+        <!-- END DATA TABLE -->
+    </div>
 </div>
-<table id="tablepaging" class="table yui">
-    <thead>
-        <tr>
-            <th>
-                Tên môn học
-            </th>
-            <th>
-                Thông tin môn học
-            </th>
-            <th>
-                Thao Tác
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<div id="pageNavPosition" style="padding-top: 20px" align="right">
-</div>
-<script type="text/javascript">
-    var pager = new Pager('tablepaging', 10);
-    pager.init();
-    pager.showPageNav('pager', 'pageNavPosition');
-    pager.showPage(1);
-</script>

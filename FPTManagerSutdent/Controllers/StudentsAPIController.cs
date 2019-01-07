@@ -103,13 +103,20 @@ namespace FPTManagerSutdent.Controllers
 
         // Lấy danh sách học sinh trong lớp
         [HttpGet("ListStudentInClass")]
-        public ClassRoom ListStudent(int classroom)
+        public IActionResult GetStudents(int gradeId)
         {
-            return _context.ClassRoom
-                .Include(s => s.StudentClassRooms)
-                    .ThenInclude(sc => sc.Student)
-                    .SingleOrDefault(c => c.Id == classroom);
-         
+            Dictionary<int, int> listStudents = new Dictionary<int, int>();
+            var students = _context.StudentClassRoom.Where(a => a.ClassRoomId == gradeId);
+            var s = 0;
+            foreach (var item in students)
+            {
+                s++;
+                var studentH = _context.Student.FirstOrDefault(i => i.Id == item.StudentId);
+                listStudents.Add(s, studentH.Id);
+            }
+            var an = listStudents.Values.ToArray();
+            var listStudent = _context.Student.Where(a => an.Contains(a.Id));
+            return new JsonResult(listStudent);
         }
 
         [HttpGet("ListCourse")]

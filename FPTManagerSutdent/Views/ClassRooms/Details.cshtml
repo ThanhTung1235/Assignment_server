@@ -2,57 +2,38 @@
 
 @{
     ViewData["Title"] = "Details";
-    
+
 }
 
-<h2>Thông tin lớp học</h2>
-
-<div>
-    <h4>ClassRoom</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            Sinh viên
-        </dt>
-        <dd>
-            @foreach (var cr in Model.StudentClassRooms)
-            {
-                @cr.Student.Name
-            }
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="row m-t-30">
+    <div class="col-md-12">
+        <h3 class="title-5 m-b-35">Thông tin lớp học</h3>
+        <div class="table-responsive m-b-40">
+            <table class="table table-borderless table-data3 paddingtable">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>Sinh viên</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(model => model.Name)</td>
+                        <td>
+                            @foreach (var cr in Model.StudentClassRooms)
+                            {
+                                <p>@cr.Student.Name</p>
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(model => model.Description)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
 </div>

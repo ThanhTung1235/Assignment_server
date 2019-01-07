@@ -5,44 +5,63 @@
     var course = ViewData["course"] as List<ClassRoom>;
 }
 
-<h2>Tạo mới mon học</h2>
-
-<h4>Course</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+<div class="card m-t-30">
+    <div class="card-header">
+        Tạo mới môn học
+        <div class="create  pull-right" style="text-align: right">
+            <p>
+                <a asp-action="Index"><span class="glyphicon glyphicon-plus"></span>Back to List</a>
+            </p>
+        </div>
+    </div>
+    <div class="card-body card-block">
+        <form asp-action="Create" class="form-horizontal">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="row form-group">
+                <div class="col col-md-3">
+                    <label asp-for="Name" class=" form-control-label"></label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <input asp-for="Name" type="text" class="form-control">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
             </div>
-            <div class="checkbox">
-                <label asp-for="ClassRoomCourses" class="control-label"></label>
-                <ul>
+            <div class="row form-group">
+                <div class="col col-md-3">
+                    <label asp-for="ClassRoomCourses" class="control-label"></label>
+                </div>
+                <div class="col col-md-9">
                     @foreach (var c in course)
                     {
-                        <li><input type="checkbox" value="@c.Id" name="courseId[]"/> @c.Name</li>
+                        <div class="form-check">
+                            <div class="checkbox">
+                                <label for="checkbox1" class="form-check-label ">
+                                    <input type="checkbox" id="checkbox1" name="courseId[]" value="@c.Id" class="form-check-input">@c.Name
+                                </label>
+                            </div>
+                        </div>
                     }
-                   
-                </ul>
-
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="row form-group">
+                <div class="col col-md-3">
+                    <label asp-for="Description" class=" form-control-label"></label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <textarea asp-for="Description" rows="5" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class=" pull-right">
+                <button type="submit" class="btn btn-primary btn-cus">
+                    <i class="fa fa-dot-circle-o"></i> Submit
+                </button>
+                <button type="reset" class="btn btn-danger btn-cus">
+                    <i class="fa fa-ban"></i> Reset
+                </button>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

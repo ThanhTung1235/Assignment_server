@@ -3,57 +3,55 @@
 @{
     ViewData["Title"] = "Index";
 }
-<hr />
-<h2>Danh sách các lớp học </h2>
-<div class="page-wrapper">
-    <div class="page-content--bge5">
-        <div class="container">
-            <div class="create" style="text-align: right">
+
+<div class="row m-t-30">
+    <div class="col-md-12">
+        <div>
+            Danh sách lớp
+            <div class="create pull-right" style="text-align: right">
                 <p>
                     <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
                 </p>
             </div>
-            <table id="tablepaging" class="table yui">
+        </div>
+        <div class="table-responsive table-responsive-data2">
+            <table id="tablepaging" class="table table-data2">
                 <thead>
-                <tr>
-                    <th>
-                        Tên lớp
-                    </th>
-                    <th>
-                        Môn Học
-                    </th>
-                    <th>
-                        Ngày lớp hoạt động
-                    </th>
-                    <th>
-                        Thao Tác
-                    </th>
-                </tr>
+                    <tr>
+                        <th>Tên sinh lớp</th>
+                        <th>Môn học</th>
+                        <th>Ngày lớp hoạt động</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <a href="Students/Index"> @Html.DisplayFor(modelItem => item.Name)</a>
-                        </td>
-                        <td>
-                            @foreach (var cr in item.ClassRoomCourses)
-                            {
-                                <p>@cr.Course.Name </p>
-                            }
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CreatedAt)
-                        </td>
-
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
+                    @foreach (var item in Model)
+                    {
+                        <tr class="tr-shadow">
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>
+                                @foreach (var cr in item.ClassRoomCourses)
+                                {
+                                    <p>@cr.Course.Name </p>
+                                }
+                            </td>
+                            <td class="desc">@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="item" data-original-title="Edit">
+                                        <i class="zmdi zmdi-edit"></i>
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="item" data-original-title="More">
+                                        <i class="zmdi zmdi-more"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="item" data-original-title="Delete">
+                                        <i class="zmdi zmdi-delete"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+                    }
                 </tbody>
             </table>
             <div id="pageNavPosition" style="padding-top: 20px" align="right">
@@ -64,11 +62,9 @@
                 pager.showPageNav('pager', 'pageNavPosition');
                 pager.showPage(1);
             </script>
-
         </div>
-
-        </div>
+        <!-- END DATA TABLE -->
     </div>
+</div>
 
 
-    

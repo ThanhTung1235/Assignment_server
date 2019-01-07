@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FPTManagerSutdent.Data;
 using FPTManagerSutdent.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace FPTManagerSutdent.Controllers
 {
@@ -22,6 +23,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             return View(await _context.Course
                 .Include(c => c.ClassRoomCourses)
                 .ThenInclude(cr => cr.ClassRoom)
@@ -32,6 +37,11 @@ namespace FPTManagerSutdent.Controllers
         // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -50,6 +60,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             var courses = _context.ClassRoom.ToList();
             ViewData["course"] = courses;
             return View();
@@ -62,6 +76,10 @@ namespace FPTManagerSutdent.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,CreatedAt,ExpiredAt,Status")] Course course, int[] courseId)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (ModelState.IsValid)
             {
                 foreach (var id in courseId)
@@ -84,6 +102,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: Courses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -104,6 +126,10 @@ namespace FPTManagerSutdent.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CreatedAt,ExpiredAt,Status")] Course course)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (id != course.Id)
             {
                 return NotFound();
@@ -135,6 +161,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: Courses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -155,6 +185,10 @@ namespace FPTManagerSutdent.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             var course = await _context.Course.FindAsync(id);
             _context.Course.Remove(course);
             await _context.SaveChangesAsync();

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FPTManagerSutdent.Data;
 using FPTManagerSutdent.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace FPTManagerSutdent.Controllers
 {
@@ -22,17 +23,25 @@ namespace FPTManagerSutdent.Controllers
         // GET: ClassRooms
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ClassRoom
-                .Include(c => c.ClassRoomCourses)
-                .ThenInclude(cr => cr.Course)
-                .ToListAsync());
+            if (HttpContext.Session.GetString("currentLogin") != null)
+            {
+                return View(await _context.ClassRoom
+                    .Include(c => c.ClassRoomCourses)
+                    .ThenInclude(cr => cr.Course)
+                    .ToListAsync());
+            }
+            return Redirect("/Authentication/Login");
         }
 
 
         // GET: ClassRooms/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
+                if (id == null)
             {
                 return NotFound();
             }
@@ -52,6 +61,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: ClassRooms/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             return View();
         }
 
@@ -62,6 +75,10 @@ namespace FPTManagerSutdent.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,CreatedAt,UpdatedAt,Status")] ClassRoom classRoom)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(classRoom);
@@ -74,6 +91,10 @@ namespace FPTManagerSutdent.Controllers
         // GET: ClassRooms/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -94,6 +115,11 @@ namespace FPTManagerSutdent.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CreatedAt,UpdatedAt,Status")] ClassRoom classRoom)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
+
             if (id != classRoom.Id)
             {
                 return NotFound();
@@ -125,6 +151,11 @@ namespace FPTManagerSutdent.Controllers
         // GET: ClassRooms/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -145,6 +176,11 @@ namespace FPTManagerSutdent.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetString("currentLogin") == null)
+            {
+                return Redirect("/Authentication/Login");
+            }
+
             var classRoom = await _context.ClassRoom.FindAsync(id);
             _context.ClassRoom.Remove(classRoom);
             await _context.SaveChangesAsync();

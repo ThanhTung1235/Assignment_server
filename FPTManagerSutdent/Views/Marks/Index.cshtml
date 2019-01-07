@@ -5,69 +5,73 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Value)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Course)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Value)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Course.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Student.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row m-t-30">
+    <div class="col-md-12">
+        <!-- DATA TABLE -->
+        <div>
+            Danh sách điểm
+            <div class="create pull-right" style="text-align: right">
+                <p>
+                    <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
+                </p>
+            </div>
+        </div>
+        <div class="table-responsive table-responsive-data2">
+            <table id="tablepaging" class="table table-data2">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Type)</th>
+                        <th>@Html.DisplayNameFor(model => model.Value)</th>
+                        <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                        <th>@Html.DisplayNameFor(model => model.Course)</th>
+                        <th>@Html.DisplayNameFor(model => model.Student)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="tr-shadow">
+                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Value)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Course.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Student.Name)
+                            </td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="item" data-original-title="Edit">
+                                        <i class="zmdi zmdi-edit"></i>
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="item" data-original-title="More">
+                                        <i class="zmdi zmdi-more"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="item" data-original-title="Delete">
+                                        <i class="zmdi zmdi-delete"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+                    }
+                </tbody>
+            </table>
+            <div id="pageNavPosition" style="padding-top: 20px" align="right">
+            </div>
+            <script type="text/javascript">
+                var pager = new Pager('tablepaging', 10);
+                pager.init();
+                pager.showPageNav('pager', 'pageNavPosition');
+                pager.showPage(1);
+            </script>
+        </div>
+        <!-- END DATA TABLE -->
+    </div>
+</div>
