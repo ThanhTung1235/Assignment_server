@@ -5,60 +5,70 @@
 }
 <hr />
 <h2>Danh sách các lớp học </h2>
+<div class="page-wrapper">
+    <div class="page-content--bge5">
+        <div class="container">
+            <div class="create" style="text-align: right">
+                <p>
+                    <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
+                </p>
+            </div>
+            <table id="tablepaging" class="table yui">
+                <thead>
+                <tr>
+                    <th>
+                        Tên lớp
+                    </th>
+                    <th>
+                        Môn Học
+                    </th>
+                    <th>
+                        Ngày lớp hoạt động
+                    </th>
+                    <th>
+                        Thao Tác
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="Students/Index"> @Html.DisplayFor(modelItem => item.Name)</a>
+                        </td>
+                        <td>
+                            @foreach (var cr in item.ClassRoomCourses)
+                            {
+                                <p>@cr.Course.Name </p>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </td>
 
-<div class="create" style="text-align: right">
-    <p>
-        <a asp-action="Create"><span class="glyphicon glyphicon-plus"></span> Thêm mới</a>
-    </p>
-</div>
-<table id="tablepaging" class="table yui">
-    <thead>
-        <tr>
-            <th>
-                Tên lớp
-            </th>
-            <th>
-                Môn Học
-            </th>
-            <th>
-                Ngày lớp hoạt động
-            </th>
-            <th>
-                Thao Tác
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <a href="Students/Index"> @Html.DisplayFor(modelItem => item.Name)</a>
-                </td>
-                <td>
-                    @foreach (var cr in item.ClassRoomCourses)
-                    {
-                        <p>@cr.Course.Name </p>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <div id="pageNavPosition" style="padding-top: 20px" align="right">
+            </div>
+            <script type="text/javascript">
+                var pager = new Pager('tablepaging', 5);
+                pager.init();
+                pager.showPageNav('pager', 'pageNavPosition');
+                pager.showPage(1);
+            </script>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<div id="pageNavPosition" style="padding-top: 20px" align="right">
-</div>
-<script type="text/javascript">
-    var pager = new Pager('tablepaging', 5);
-    pager.init();
-    pager.showPageNav('pager', 'pageNavPosition');
-    pager.showPage(1);
-</script>
+        </div>
+
+        </div>
+    </div>
+
+
+    
