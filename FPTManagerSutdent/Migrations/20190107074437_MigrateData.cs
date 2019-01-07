@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FPTManagerSutdent.Migrations
 {
-    public partial class AddMark : Migration
+    public partial class MigrateData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -109,9 +109,9 @@ namespace FPTManagerSutdent.Migrations
                 name: "Mark",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Type = table.Column<int>(nullable: false),
-                    TypeMark = table.Column<int>(nullable: false),
                     Value = table.Column<int>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdateAt = table.Column<DateTime>(nullable: false),
@@ -121,8 +121,7 @@ namespace FPTManagerSutdent.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Mark", x => new { x.CourseId, x.StudentId });
-                    table.UniqueConstraint("AK_Mark_Id", x => x.Id);
+                    table.PrimaryKey("PK_Mark", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Mark_Course_CourseId",
                         column: x => x.CourseId,
@@ -168,6 +167,11 @@ namespace FPTManagerSutdent.Migrations
                 name: "IX_ClassRoomCourse_ClassRoomId",
                 table: "ClassRoomCourse",
                 column: "ClassRoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mark_CourseId",
+                table: "Mark",
+                column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mark_StudentId",

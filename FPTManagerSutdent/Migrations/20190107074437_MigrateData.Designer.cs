@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FPTManagerSutdent.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20190105044306_UpdateMark2")]
-    partial class UpdateMark2
+    [Migration("20190107074437_MigrateData")]
+    partial class MigrateData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -85,15 +85,17 @@ namespace FPTManagerSutdent.Migrations
 
             modelBuilder.Entity("FPTManagerSutdent.Models.Mark", b =>
                 {
-                    b.Property<int>("CourseId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("StudentId");
+                    b.Property<int>("CourseId");
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("Id");
-
                     b.Property<int>("Status");
+
+                    b.Property<int>("StudentId");
 
                     b.Property<int>("Type");
 
@@ -101,7 +103,9 @@ namespace FPTManagerSutdent.Migrations
 
                     b.Property<int>("Value");
 
-                    b.HasKey("CourseId", "StudentId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("StudentId");
 

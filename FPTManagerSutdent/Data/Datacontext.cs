@@ -26,8 +26,6 @@ namespace FPTManagerSutdent.Data
                 .HasKey(sc => new { sc.CourseId, sc.ClassRoomId });
             modelBuilder.Entity<StudentClassRoom>()
                 .HasKey(sc => new { sc.ClassRoomId, sc.StudentId });
-            modelBuilder.Entity<Mark>()
-               .HasKey(sc => new { sc.CourseId, sc.StudentId });
         }
     }
     

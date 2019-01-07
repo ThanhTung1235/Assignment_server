@@ -37,7 +37,7 @@ namespace FPTManagerSutdent.Controllers
             var mark = await _context.Mark
                 .Include(m => m.Course)
                 .Include(m => m.Student)
-                .FirstOrDefaultAsync(m => m.CourseId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (mark == null)
             {
                 return NotFound();
@@ -59,7 +59,7 @@ namespace FPTManagerSutdent.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,Value,CourseId,StudentId")] Mark mark)
+        public async Task<IActionResult> Create([Bind("Id,Type,Value,CreatedAt,UpdateAt,CourseId,StudentId,Status")] Mark mark)
         {
             var checkMark = _context.Mark.Where(a => a.StudentId == mark.StudentId).Where(m => m.Type == mark.Type)
                 .Where(d => d.CourseId == mark.CourseId).FirstOrDefault();
@@ -83,8 +83,8 @@ namespace FPTManagerSutdent.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Description", mark.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Email", mark.StudentId);
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Name", mark.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Name", mark.StudentId);
             return View(mark);
         }
 
@@ -101,8 +101,8 @@ namespace FPTManagerSutdent.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Description", mark.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Email", mark.StudentId);
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Name", mark.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Name", mark.StudentId);
             return View(mark);
         }
 
@@ -113,7 +113,7 @@ namespace FPTManagerSutdent.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Value,CreatedAt,UpdateAt,CourseId,StudentId,Status")] Mark mark)
         {
-            if (id != mark.CourseId)
+            if (id != mark.Id)
             {
                 return NotFound();
             }
@@ -127,7 +127,7 @@ namespace FPTManagerSutdent.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MarkExists(mark.CourseId))
+                    if (!MarkExists(mark.Id))
                     {
                         return NotFound();
                     }
@@ -138,8 +138,8 @@ namespace FPTManagerSutdent.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Description", mark.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Email", mark.StudentId);
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Name", mark.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Name", mark.StudentId);
             return View(mark);
         }
 
@@ -154,7 +154,7 @@ namespace FPTManagerSutdent.Controllers
             var mark = await _context.Mark
                 .Include(m => m.Course)
                 .Include(m => m.Student)
-                .FirstOrDefaultAsync(m => m.CourseId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (mark == null)
             {
                 return NotFound();
@@ -176,7 +176,7 @@ namespace FPTManagerSutdent.Controllers
 
         private bool MarkExists(int id)
         {
-            return _context.Mark.Any(e => e.CourseId == id);
+            return _context.Mark.Any(e => e.Id == id);
         }
     }
 }

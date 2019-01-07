@@ -14,6 +14,7 @@ namespace FPTManagerSutdent.Models
             this.CreatedAt = DateTime.Now;
             this.Status = ClassRoomStatus.Active;
         }
+        [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
