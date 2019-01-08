@@ -12,12 +12,10 @@
         Thêm mới sinh viên
         <div class="create pull-right" style="text-align: right">
             <p>
-                <a asp-action="Index"><span class="glyphicon glyphicon-plus"></span>Back to List</a>
+                <a asp-action="Index"><span class="glyphicon glyphicon-plus"></span>Quay Lại</a>
             </p>
         </div>
     </div>
-
-
     <div class="card-body card-block">
         <form asp-action="Create" class="form-horizontal">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -64,7 +62,6 @@
                             </div>
                         </div>
                     }
-
                 </div>
             </div>
             <div class="row form-group">
@@ -81,7 +78,7 @@
                     <label asp-for="Address" class=" form-control-label"></label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <textarea asp-for="Address" rows="5" class="form-control"></textarea>
+                    <input asp-for="Address" rows="5" class="form-control"></input>
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
             </div>
