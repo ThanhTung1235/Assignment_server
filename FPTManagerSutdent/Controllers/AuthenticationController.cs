@@ -36,7 +36,7 @@ namespace FPTManagerSutdent.Controllers
             {
                 HttpContext.Session.SetString("currentLogin", existAccount.Email);
                 HttpContext.Session.SetString("currentLoginId", existAccount.Id.ToString());
-                return Redirect("Home/Index");
+                return Redirect("ClassRooms/Index");
             }
             Response.StatusCode = 403;
             return Json("Forbidden1");

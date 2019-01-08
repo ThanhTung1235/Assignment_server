@@ -43,26 +43,13 @@
     <aside class="menu-sidebar d-none d-lg-block">
         <div class="logo">
             <a href="#">
-                <img src="~/images/icon/logo.png" alt="Cool Admin" />
+                <img src="~/images/icon/FPT.png" alt="Cool Admin" />
             </a>
         </div>
         <div class="menu-sidebar__content js-scrollbar1">
             <nav class="navbar-sidebar">
-                <ul class="list-unstyled navbar__list">
-                    <li class="has-sub">
-                        <a class="js-arrow" href="#">
-                            <i class="fas fa-tachometer-alt"></i>Dashboard
-                        </a>
-                        <ul class="list-unstyled navbar__sub-list js-sub-list">
-                            <li>
-                                <a href="index.html">Dashboard 1</a>
-                            </li>
-                            <li>
-                                <a href="index2.html">Dashboard 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="active">
+                <ul class="list-unstyled navbar__list">       
+                    <li>
                         <a href="/ClassRooms/Index">
                             <i class="fas fa-table"></i>Lớp
                         </a>
@@ -96,77 +83,26 @@
                     <div class="header-wrap">
                         <form class="form-header" asp-controller="Students" asp-action="Index">
                             <input class="au-input au-input--xl" type="text" name="SearchString"
-                                   placeholder="Search for datas &amp; reports..." />
+                                   placeholder="Tìm kiếm..." />
                             <button class="au-btn--submit" type="submit">
                                 <i class="zmdi zmdi-search"></i>
                             </button>
                         </form>
-                        <div class="header-button">
-                            <div class="account-wrap">
-                                <div class="account-item clearfix js-item-menu">
-                                    <div class="image">
-                                        <img src="images/icon/avatar-01.jpg" alt="John Doe" />
-                                    </div>
-                                    <div class="content">
-                                        <a class="js-acc-btn" href="#">john doe</a>
-                                    </div>
-                                    <div class="account-dropdown js-dropdown">
-                                        <div class="info clearfix">
-                                            <div class="image">
-                                                <a href="#">
-                                                    <img src="images/icon/avatar-01.jpg" alt="John Doe" />
-                                                </a>
-                                            </div>
-                                            <div class="content">
-                                                <h5 class="name">
-                                                    <a href="#">john doe</a>
-                                                </h5>
-                                                <span class="email">johndoe@example.com</span>
-                                            </div>
-                                        </div>
-                                        <div class="account-dropdown__body">
-                                            <div class="account-dropdown__item">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-account"></i>Account
-                                                </a>
-                                            </div>
-                                            <div class="account-dropdown__item">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-settings"></i>Setting
-                                                </a>
-                                            </div>
-                                            <div class="account-dropdown__item">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-money-box"></i>Billing
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="account-dropdown__footer">
-                                            <a href="#">
-                                                <i class="zmdi zmdi-power"></i>Logout
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
-           
         </header>
         <!-- END HEADER DESKTOP-->
-
         <partial name="_CookieConsentPartial" />
 
         <div class="container body-content">
             @RenderBody()
             <hr />
-            <footer>
-                <p>&copy; 2018 - FPTManagerSutdent</p>
-            </footer>
-        </div>
 
+            @*<footer>
+                <p>&copy; 2018 - FPTManagerSutdent</p>
+            </footer>*@
+        </div>
         <environment include="Development">
             <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
