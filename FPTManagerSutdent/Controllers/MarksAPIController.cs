@@ -25,7 +25,7 @@ namespace FPTManagerSutdent.Controllers
         [HttpGet]
         public IEnumerable<Mark> GetMark(int studentId, int courseId)
         {
-            return _context.Mark.Where(m => m.Id == studentId && m.CourseId == courseId).ToList();
+            return _context.Mark.Where(m => m.StudentId == studentId && m.CourseId == courseId).ToList();
         }
 
         // GET: api/MarksAPI/5
